@@ -72,7 +72,9 @@ public class Main {
 //	    		stmt.setString(2, userPass);
 //	    		stmt.execute();
 			
-	         
+	        StudentGui myStudentGui = new StudentGui();
+	        ProfessorGui myProfGui = new ProfessorGui();
+	        
 			if (myConnection != null) try { myConnection.close(); } catch(Exception e) {}
 			System.out.println("Connection Terminated");
     		
@@ -129,6 +131,11 @@ public class Main {
 			System.out.println("anything error");
 			rs = stmt.executeQuery();
 			
+		//	String x = rs.getString(1);
+			
+	
+			
+			
 			
 			
 //			System.out.println(rs.getObject(3));
@@ -138,6 +145,7 @@ public class Main {
 	      // rs = stmt.executeQuery(arg); 
 	       if(!(rs == null)) {
 		       int col_label_count = rs.getMetaData().getColumnCount();
+		       System.out.println(col_label_count);
 			   for (int i = 1; i <= col_label_count; i++){
 			        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
 		        }
