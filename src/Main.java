@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Scanner;
 
+import javax.swing.JButton;
+
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 
@@ -15,6 +17,9 @@ public class Main {
 	public static String SQL = "exec testproc"; // TODO: Test sproc by putting string here
 	private static int userID;
 	private static String userPass;
+	private static StudentGui myStudentGui;
+	private static ProfessorGui myProfessorGui = null;
+	private static CreateAssignmentGui myCreateGui;
 	
 	public static void main(String[] args) throws SQLException {  
 //		System.out.println("Attempting to connect to KLV_Gradebook");
@@ -72,8 +77,19 @@ public class Main {
 //	    		stmt.setString(2, userPass);
 //	    		stmt.execute();
 			
-	        StudentGui myStudentGui = new StudentGui();
-	        ProfessorGui myProfGui = new ProfessorGui();
+	        myStudentGui = new StudentGui();
+	        myProfessorGui = new ProfessorGui();
+	        myProfessorGui.createButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  myCreateGui = new CreateAssignmentGui();
+		        	  createAssignmentButtonPressed(myCreateGui.continueButton());
+		        	          	  
+		          }
+			});
+	        
+	        
 	        
 			if (myConnection != null) try { myConnection.close(); } catch(Exception e) {}
 			System.out.println("Connection Terminated");
@@ -82,6 +98,14 @@ public class Main {
     	//	runStatement(SQL, con);
           }
 		});
+		
+		
+		
+		
+		
+		
+		
+		
 		
 
 		
@@ -197,4 +221,17 @@ public class Main {
 		
 		return null;
    }
+   
+   public static void createAssignmentButtonPressed(JButton myButton){
+		myButton.addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  
+	        	  System.out.print(myCreateGui.getAssignmentID());
+	          }
+		});
+	}
+   
+   
 }  
