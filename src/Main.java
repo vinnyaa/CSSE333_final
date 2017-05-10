@@ -21,6 +21,7 @@ public class Main {
 	private static StudentGui myStudentGui;
 	private static ProfessorGui myProfessorGui = null;
 	private static CreateAssignmentGui myCreateGui;
+	private static CreateNewQuestionGui newQuestionGui;
 	
 	public static void main(String[] args) throws SQLException {  
 	
@@ -138,7 +139,8 @@ public class Main {
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateAssignmentStatement(myConnection);
 	        	  
-	        	  CreateNewQuestionGui newQuestionGui = new CreateNewQuestionGui();
+	        	  newQuestionGui = new CreateNewQuestionGui();
+	        	  handleCreateQuestion();
 	          }
 		});
 	}
@@ -162,6 +164,23 @@ public class Main {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 	      System.out.println("Statement Completed: ");
 	   }  
+   }
+   
+   public static void handleCreateQuestion(){
+	   newQuestionGui.getCompleteButton().addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  System.out.println("Complete button pressed");
+	          }
+		});
+	   newQuestionGui.getContinueButton().addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  System.out.println("Continue button pressed");
+	          }
+		});
    }
    
    

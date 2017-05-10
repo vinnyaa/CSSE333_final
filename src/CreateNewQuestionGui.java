@@ -28,11 +28,10 @@ public class CreateNewQuestionGui {
 	JTextField promptField;
 	JTextField correctField;
 	JTextField option1Field;
-	JTextField choice1Field;
 	JTextField option2Field;
-	JTextField choice2Field;
 	JPanel myPanel;
-	JButton myButton;
+	JButton completeButton;
+	JButton continueButton;
 	String username;
 	String password;
 	Boolean pressed = true;
@@ -112,22 +111,10 @@ public class CreateNewQuestionGui {
 		option1Field.setLocation(150, 130);
 		frame.add(option1Field);
 		
-//		//choice1 field
-//		l = new JLabel("Enter Choice 1");
-//		l.setLocation(10,160);
-//		l.setSize(l.getPreferredSize());
-//		frame.add(l);
-//			
-//		choice1Field = new JTextField();
-//		choice1Field.setColumns(15);
-//		choice1Field.setSize(choice1Field.getPreferredSize());
-//					
-//		choice1Field.setLocation(150, 160);
-//		frame.add(choice1Field);
 		
 		//option2 field
 		l = new JLabel("Enter Option 2");
-		l.setLocation(10,190);
+		l.setLocation(10,160);
 		l.setSize(l.getPreferredSize());
 		frame.add(l);
 			
@@ -135,32 +122,19 @@ public class CreateNewQuestionGui {
 		option2Field.setColumns(15);
 		option2Field.setSize(option2Field.getPreferredSize());
 					
-		option2Field.setLocation(150, 190);
+		option2Field.setLocation(150, 160);
 		frame.add(option2Field);
 		
-		//choice2 field
-		l = new JLabel("Enter Choice 2");
-		l.setLocation(10,220);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
-			
-		choice2Field = new JTextField();
-		choice2Field.setColumns(15);
-		choice2Field.setSize(choice2Field.getPreferredSize());
-					
-		choice1Field.setLocation(150, 220);
-		frame.add(choice2Field);
+		//buttons
+		continueButton = new JButton("Continue Creating More Questions");
+		continueButton.setSize(continueButton.getPreferredSize());
+		continueButton.setLocation(150,190);
+		frame.add(continueButton);
 		
-		
-		
-		
-		
-		
-		myButton = new JButton("Complete Assignment");
-		myButton.setSize(myButton.getPreferredSize());
-		myButton.setLocation(150,250);
-		frame.add(myButton);
-		
+		completeButton = new JButton("Complete Assignment");
+		completeButton.setSize(completeButton.getPreferredSize());
+		completeButton.setLocation(150,210);
+		frame.add(completeButton);
 		
 		
 		frame.setVisible(true);
@@ -170,8 +144,12 @@ public class CreateNewQuestionGui {
 		return Integer.parseInt(idField.getText());
 	}
 	
-	public JButton continueButton(){
-		return myButton;
+	public JButton getCompleteButton(){
+		return completeButton;
+	}
+	
+	public JButton getContinueButton(){
+		return continueButton;
 	}
 	
 }
