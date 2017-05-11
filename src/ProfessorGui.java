@@ -76,14 +76,14 @@ public class ProfessorGui {
 		gradeReportButton.setSize(gradeReportButton.getPreferredSize());
 		myPanel.add(gradeReportButton, BorderLayout.CENTER);
 		
-		gradeReportButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Grade report has been pressed");
-	          }
-			
-			});
+//		gradeReportButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Grade report has been pressed");
+//	          }
+//			
+//			});
 		
 		createAssignButton = new JButton("Create Assignment");
 		createAssignButton.setSize(createAssignButton.getPreferredSize());
@@ -136,6 +136,10 @@ public class ProfessorGui {
 	
 	public JButton createButton(){
 		return createAssignButton;
+	}
+	
+	public JButton profGradeReportButton(){
+		return gradeReportButton;
 	}
 	
 

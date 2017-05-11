@@ -22,6 +22,8 @@ public class Main {
 	private static ProfessorGui myProfessorGui = null;
 	private static CreateAssignmentGui myCreateGui;
 	private static CreateNewQuestionGui newQuestionGui;
+	private static ProfessorGradeReportGui myProfGradeReport;
+	private static AssignAssignmentGui myAssignAssignment;
 	
 	public static void main(String[] args) throws SQLException {  
 	
@@ -46,6 +48,14 @@ public class Main {
 		        	  myCreateGui = new CreateAssignmentGui();
 		        	  createAssignmentButtonPressed(myCreateGui.continueButton());
 		        	          	  
+		          }
+			});
+	        myProfessorGui.profGradeReportButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  myProfGradeReport = new ProfessorGradeReportGui();
+		        	  professorGradeReport(myProfGradeReport.continueButton(), myProfGradeReport);
 		          }
 			});
 	        
@@ -176,6 +186,8 @@ public class Main {
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
 	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field());
+	        	  AssignAssignmentGui myAssignAssignment = new AssignAssignmentGui();
+	        	  handleAssignSection(myAssignAssignment, myCreateGui.getAssignmentID());
 	          }
 		});
 	   newQuestionGui.getContinueButton().addActionListener(new ActionListener() {
@@ -197,6 +209,8 @@ public class Main {
 	   
 	   CallableStatement stmt = null; 
 
+
+
 	   try {
 
 		   	stmt = con.prepareCall("{call CreateQuestion(?,?,?,?,?,?,?,?)}");
@@ -210,6 +224,127 @@ public class Main {
 			stmt.setInt(8, op2);
 			
 			stmt.executeQuery();
+
+	       
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   } finally {
+	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+	      System.out.println("Statement Completed: ");
+	   }  
+   }
+   
+   public static void professorGradeReport(JButton myButton, ProfessorGradeReportGui myGui){
+		myButton.addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  Connection myConnection = makeConnection();
+	        	  runProfGradeReport(myConnection, myGui.getCourseID(), myGui.getSectionID());
+	        	  
+	          }
+		});
+	}
+   
+   static void runProfGradeReport(Connection con, int course, int section) {
+	   
+	   CallableStatement stmt = null; 
+	   ResultSet rs = null;
+
+	   try {
+
+		   	stmt = con.prepareCall("{call ProfessorGradeReport(?,?,?)}");
+			stmt.setInt(1, userID);
+			
+			if (-1 != course)
+				stmt.setInt(2, course);
+			else
+				stmt.setNull(2, java.sql.Types.INTEGER);
+			
+			if (-1 != section)
+				stmt.setInt(3, section);
+			else
+				stmt.setNull(3, java.sql.Types.INTEGER);
+			
+
+			rs = stmt.executeQuery();
+			
+			if(!(rs == null)) {
+			       int col_label_count = rs.getMetaData().getColumnCount();
+			       System.out.println(col_label_count);
+				   for (int i = 1; i <= col_label_count; i++){
+				        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+			        }
+			        System.out.println("\b");
+			         while (rs.next()) {  
+			        	 for (int i = 1; i <= col_label_count; i++){
+			 		        System.out.print(rs.getString(i) + "\t");
+			 	        }
+			 	        System.out.println("\b");
+			         }  
+		       }
+
+	       
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   } finally {
+	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+	      System.out.println("Statement Completed: ");
+	   }  
+   }
+   
+   public static void handleAssignSection(AssignAssignmentGui myGui,int assignID){
+	   myGui.getCompleteButton().addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  Connection myConnection = makeConnection();
+	        	  runAssignSectionStatement(myConnection, myGui.getSectionID(), assignID);
+
+	          }
+		});
+	   myGui.getContinueButton().addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	        	  Connection myConnection = makeConnection();
+	        	  runAssignSectionStatement(myConnection, myGui.getSectionID(), assignID);
+	        	  AssignAssignmentGui newGui = new AssignAssignmentGui();
+	        	  handleAssignSection(newGui, assignID);
+	        	  
+	        	  
+	          }
+		});
+   }
+   
+static void runAssignSectionStatement(Connection con, int section, int assignment) {
+	   
+	   CallableStatement stmt = null; 
+	   ResultSet rs = null;
+
+	   try {
+
+		   	stmt = con.prepareCall("{call AssignSectionAssignments(?,?,?)}");
+			stmt.setInt(1, userID);
+		    stmt.setInt(2, section);
+		    stmt.setInt(3, assignment);
+
+			rs = stmt.executeQuery();
+			
+			if(!(rs == null)) {
+			       int col_label_count = rs.getMetaData().getColumnCount();
+			       System.out.println(col_label_count);
+				   for (int i = 1; i <= col_label_count; i++){
+				        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+			        }
+			        System.out.println("\b");
+			         while (rs.next()) {  
+			        	 for (int i = 1; i <= col_label_count; i++){
+			 		        System.out.print(rs.getString(i) + "\t");
+			 	        }
+			 	        System.out.println("\b");
+			         }  
+		       }
 
 	       
 	   } catch (Exception e) {
