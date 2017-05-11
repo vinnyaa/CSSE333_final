@@ -172,6 +172,10 @@ public class Main {
 	          public void actionPerformed(ActionEvent event)
 	          {
 	        	  System.out.println("Complete button pressed");
+	        	  Connection myConnection = makeConnection();
+	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
+	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
+	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field());
 	          }
 		});
 	   newQuestionGui.getContinueButton().addActionListener(new ActionListener() {
@@ -179,8 +183,41 @@ public class Main {
 	          public void actionPerformed(ActionEvent event)
 	          {
 	        	  System.out.println("Continue button pressed");
+	        	  Connection myConnection = makeConnection();
+	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
+	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
+	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field());
+	        	  newQuestionGui = new CreateNewQuestionGui();
+	        	  handleCreateQuestion();
 	          }
 		});
+   }
+   
+   static void runCreateQuestionStatement(Connection con, int id, int points, String prompt, int correct, int op1, int op2) {
+	   
+	   CallableStatement stmt = null; 
+
+	   try {
+
+		   	stmt = con.prepareCall("{call CreateQuestion(?,?,?,?,?,?,?,?)}");
+			stmt.setInt(1, userID);
+			stmt.setInt(2, assignmentID);
+		   	stmt.setInt(3, id);
+			stmt.setInt(4, points);
+			stmt.setString(5, prompt);
+			stmt.setInt(6, correct);
+			stmt.setInt(7, op1);
+			stmt.setInt(8, op2);
+			
+			stmt.executeQuery();
+
+	       
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   } finally {
+	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+	      System.out.println("Statement Completed: ");
+	   }  
    }
    
    

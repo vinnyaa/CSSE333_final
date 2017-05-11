@@ -139,10 +139,33 @@ public class CreateNewQuestionGui {
 		
 		frame.setVisible(true);
 	}
+
 	
-	public int getAssignmentID(){
+	
+	public int getIdField() {
 		return Integer.parseInt(idField.getText());
 	}
+	
+	public int getPointsField() {
+		return Integer.parseInt(pointsField.getText());
+	}
+
+	public String getPromptField() {
+		return promptField.getText();
+	}
+
+	public int getCorrectField() {
+		return Integer.parseInt(correctField.getText());
+	}
+
+	public int getOption1Field() {
+		return Integer.parseInt(option1Field.getText());
+	}
+
+	public int getOption2Field() {
+		return Integer.parseInt(option2Field.getText());
+	}
+	
 	
 	public JButton getCompleteButton(){
 		return completeButton;
