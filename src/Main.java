@@ -26,6 +26,12 @@ public class Main {
 	private static ProfessorGradeReportGui myProfGradeReport;
 	private static AssignAssignmentGui myAssignAssignment;
 	private static ViewAssignmentResultsGui myAssignmentResultsGui;
+	public enum Mode {
+	    LOGIN,
+	    STUDENT,
+	    PROFESSOR
+	}
+	private static Mode mode = Mode.LOGIN;
 	
 	public static void main(String[] args) throws SQLException {  
 	
@@ -97,8 +103,17 @@ public class Main {
 		myGui.frame.remove(myGui.myPanel);
         myGui.frame.add(myProfessorGui.myPanel);
         myGui.frame.setTitle("GradeBook Assistant - Professor");
-        myGui.frame.setSize(500,300);
+        myGui.frame.setSize(500,370);
         myGui.frame.repaint();
+	}
+	
+	static void switchToLoginGui() {
+		if(mode == Mode.STUDENT) {
+			myGui.frame.remove(myStudentGui.myPanel);
+		} else if (mode == Mode.PROFESSOR){
+			myGui.frame.remove(myGui.myPanel);
+		}
+		
 	}
 	
 	
