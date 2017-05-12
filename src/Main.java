@@ -24,6 +24,7 @@ public class Main {
 	private static CreateNewQuestionGui newQuestionGui;
 	private static ProfessorGradeReportGui myProfGradeReport;
 	private static AssignAssignmentGui myAssignAssignment;
+	private static ViewAssignmentResultsGui myAssignmentResultsGui;
 	
 	public static void main(String[] args) throws SQLException {  
 	
@@ -56,6 +57,14 @@ public class Main {
 		          {
 		        	  myProfGradeReport = new ProfessorGradeReportGui();
 		        	  professorGradeReport(myProfGradeReport.continueButton(), myProfGradeReport);
+		          }
+			});
+	        myProfessorGui.viewResultsButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  myAssignmentResultsGui = new ViewAssignmentResultsGui();
+		        	  assignmentResults(myAssignmentResultsGui);
 		          }
 			});
 	        
@@ -310,50 +319,100 @@ public class Main {
 	        	  Connection myConnection = makeConnection();
 	        	  runAssignSectionStatement(myConnection, myGui.getSectionID(), assignID);
 	        	  AssignAssignmentGui newGui = new AssignAssignmentGui();
-	        	  handleAssignSection(newGui, assignID);
-	        	  
+	        	  handleAssignSection(newGui, assignID);  
 	        	  
 	          }
 		});
    }
    
-static void runAssignSectionStatement(Connection con, int section, int assignment) {
-	   
-	   CallableStatement stmt = null; 
-	   ResultSet rs = null;
+	static void runAssignSectionStatement(Connection con, int section, int assignment) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+	
+		   try {
+	
+			   	stmt = con.prepareCall("{call AssignSectionAssignments(?,?,?)}");
+				stmt.setInt(1, userID);
+			    stmt.setInt(2, section);
+			    stmt.setInt(3, assignment);
+	
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+	
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
 
-	   try {
+	public static void assignmentResults(ViewAssignmentResultsGui myGui){
+		   myGui.getCompleteButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  runResultsStatement(myConnection, myGui.getSectionID(), myGui.getAssignmentID());
+	
+		          }
+			});
 
-		   	stmt = con.prepareCall("{call AssignSectionAssignments(?,?,?)}");
-			stmt.setInt(1, userID);
-		    stmt.setInt(2, section);
-		    stmt.setInt(3, assignment);
+	}
+	static void runResultsStatement(Connection con, int section, int assignment) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+	
+		   try {
+	
+			   	stmt = con.prepareCall("{call ViewResultsOfAssignment(?,?,?)}");
+				stmt.setInt(1, userID);
+			    stmt.setInt(2, section);
+			    stmt.setInt(3, assignment);
+	
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+	
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
 
-			rs = stmt.executeQuery();
-			
-			if(!(rs == null)) {
-			       int col_label_count = rs.getMetaData().getColumnCount();
-			       System.out.println(col_label_count);
-				   for (int i = 1; i <= col_label_count; i++){
-				        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
-			        }
-			        System.out.println("\b");
-			         while (rs.next()) {  
-			        	 for (int i = 1; i <= col_label_count; i++){
-			 		        System.out.print(rs.getString(i) + "\t");
-			 	        }
-			 	        System.out.println("\b");
-			         }  
-		       }
-
-	       
-	   } catch (Exception e) {
-		   e.printStackTrace();
-	   } finally {
-	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
-	   }  
-   }
    
    
 }  

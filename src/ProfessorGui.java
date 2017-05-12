@@ -103,14 +103,14 @@ public class ProfessorGui {
 		viewAssignResultsButton.setSize(viewAssignResultsButton.getPreferredSize());
 		myPanel.add(viewAssignResultsButton, BorderLayout.CENTER);
 		
-		viewAssignResultsButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Complete assign has been pressed");
-	          }
-			
-			});
+//		viewAssignResultsButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Complete assign has been pressed");
+//	          }
+//			
+//			});
 		
 		
 		
@@ -140,6 +140,11 @@ public class ProfessorGui {
 	
 	public JButton profGradeReportButton(){
 		return gradeReportButton;
+	}
+	
+	
+	public JButton viewResultsButton(){
+		return viewAssignResultsButton;
 	}
 	
 
