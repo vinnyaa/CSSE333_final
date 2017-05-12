@@ -38,7 +38,7 @@ public class CreateAssignmentGui {
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);
 		frame.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		l = new JLabel("Enter AssignmentID");
 		l.setLocation(10,10);

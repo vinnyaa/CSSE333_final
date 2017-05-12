@@ -82,7 +82,7 @@ public class Main {
 	   
 	   
    // repeatable function that runs the sql statement represented by the string
-   // TODO: create a preprocessing string to secure SQL statement from attacks
+   // TODO: CHANGE PASSWORD TO A INTEGER.PARSEINT();
    static void runUserLoginStatement(Connection con) {
 	   CallableStatement stmt = null;  
 	   ResultSet rs = null;

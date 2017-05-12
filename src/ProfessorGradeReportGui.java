@@ -39,7 +39,7 @@ public class ProfessorGradeReportGui {
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);
 		frame.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//course ID field
 		l = new JLabel("Course ID (Optional)");
