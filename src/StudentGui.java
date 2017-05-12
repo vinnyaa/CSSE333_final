@@ -32,19 +32,17 @@ public class StudentGui {
 	
 	StudentGui() {
 		
-		frame = new JFrame("GradeBook Assistant - Student");
-		frame.setSize(500, 300);
-		frame.getContentPane().setBackground(Color.orange);
-		frame.setLocation(300, 200);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+//		frame = new JFrame("GradeBook Assistant - Student");
+//		frame.setSize(500, 300);
+//		frame.getContentPane().setBackground(Color.orange);
+//		frame.setLocation(300, 200);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
 		
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.insets.set(10, 10, 10, 10);
-		c.ipadx = 20;
-		c.ipady = 20;
 		c.anchor = GridBagConstraints.NORTHWEST; // Basically is it centered, align left/right, up/down
 		c.weightx = 1; // how much of the grid square should the item fill in the x direction (.2 = 20%)
 		c.weighty = .65; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
@@ -131,8 +129,9 @@ public class StudentGui {
 //		
 		
 		//nah
-		frame.add(myPanel);
-		frame.repaint();
+		myPanel.setOpaque(false);
+//		frame.add(myPanel);
+//		frame.repaint();
 			
 		
 		

@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +21,7 @@ public class Gui {
 	JPasswordField passwordField;
 	JLabel l; //used for printing on frame
 	JButton myButton;
+	JPanel myPanel;
 	String username;
 	String password;
 	Boolean pressed = true;
@@ -30,41 +33,47 @@ public class Gui {
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);
-		frame.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets.set(10, 10, 10, 10);
+		c.anchor = GridBagConstraints.NORTHWEST; // Basically is it centered, align left/right, up/down
+		c.weightx = .8; // how much of the grid square should the item fill in the x direction (.2 = 20%)
+		c.weighty = .65; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
+		
+		myPanel = new JPanel(layout);
+		
+		c.weightx = .3;
+		c.gridx = 0;
+		c.gridy = 0;
 		l = new JLabel("Enter User Name");
 		l.setHorizontalAlignment(JLabel.CENTER);
-		l.setLocation(10,10);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		myPanel.add(l,c);
 				
-		field = new JTextField();
-		field.setColumns(15);
-		field.setSize(field.getPreferredSize());
-		
-		field.setLocation(150, 10);
-		//field.setToolTipText("Enter User Name");
-		frame.add(field);
-		
+		c.gridx = 0;
+		c.gridy = 1;
 		l = new JLabel("Enter Password");
-		l.setLocation(10,40);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		myPanel.add(l,c);
 		
-		passwordField = new JPasswordField();
-		passwordField.setColumns(15);
-		passwordField.setSize(passwordField.getPreferredSize());
+		c.gridy = 0;
+		c.gridx = 1;
+		field = new JTextField();	
+		myPanel.add(field, c);
 		
-		passwordField.setLocation(150, 40);
-		//field.setToolTipText("Enter User Name");
-		frame.add(passwordField);
+		c.gridy = 1;
+		passwordField = new JPasswordField();		
+		myPanel.add(passwordField, c);
 		
+		c.gridx = 1;
+		c.gridy = 2;
 		myButton = new JButton("OK");
-		myButton.setSize(myButton.getPreferredSize());
-		myButton.setLocation(150,80);
-		frame.add(myButton);
+		myPanel.add(myButton, c);
 		
-		
+		myPanel.setOpaque(false);
+		frame.add(myPanel);
 		frame.setVisible(true);
 		
 		

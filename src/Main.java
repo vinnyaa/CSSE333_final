@@ -41,6 +41,11 @@ public class Main {
 			runUserLoginStatement(myConnection);
 			
 	        myStudentGui = new StudentGui();
+	        myGui.frame.remove(myGui.myPanel);
+	        myGui.frame.add(myStudentGui.myPanel);
+	        myGui.frame.setTitle("GradeBook Assistant - Student");
+	        myGui.frame.setSize(500,300);
+	        myGui.frame.repaint();
 	        myProfessorGui = new ProfessorGui();
 	        myProfessorGui.createButton().addActionListener(new ActionListener() {
 		          @Override

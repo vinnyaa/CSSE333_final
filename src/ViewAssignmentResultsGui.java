@@ -63,35 +63,35 @@ public class ViewAssignmentResultsGui {
 		c.weighty = 1; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
 		c.gridwidth = 1;
 		
-		JPanel jp = new JPanel(layout);
+		JPanel myPanel = new JPanel(layout);
 		
 		l = new JLabel("Enter Assignment");
 		c.gridx = 0;
 		c.gridy = 0;
-		jp.add(l,c);
+		myPanel.add(l,c);
 				
 		assignmentID = new JTextField();
 		c.gridx = 1;
 		c.gridy = 0;
-		jp.add(assignmentID,c);
+		myPanel.add(assignmentID,c);
 				
 		l = new JLabel("Enter Section");
 		c.gridx = 0;
 		c.gridy = 1;
-		jp.add(l,c);
+		myPanel.add(l,c);
 		
 		sectionID = new JTextField();
 		c.gridx = 1;
 		c.gridy = 1;
-		jp.add(sectionID,c);
+		myPanel.add(sectionID,c);
 		
 		completeButton = new JButton("Done");
 		c.gridx = 1;
 		c.gridy = 2;
-		jp.add(completeButton,c);
+		myPanel.add(completeButton,c);
 				
-		
-		frame.add(jp);
+		myPanel.setOpaque(false);
+		frame.add(myPanel);
 		frame.setVisible(true);
 		frame.repaint();
 	}
