@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,21 +34,32 @@ public class ProfessorGui {
 	ProfessorGui() {
 		
 		frame = new JFrame("GradeBook Assistant - Professor");
-		frame.setSize(250, 300);
+		frame.setSize(500, 370);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
-		myPanel = new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.insets.set(10, 10, 10, 10);
+		c.anchor = GridBagConstraints.NORTHWEST; // Basically is it centered, align left/right, up/down
+		c.weightx = 1; // how much of the grid square should the item fill in the x direction (.2 = 20%)
+		c.weighty = .65; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
+		
+		myPanel = new JPanel(layout);
 
-		frame.add(myPanel, BorderLayout.CENTER);
-		myPanel.add(new JLabel ("Please Choose an Option"));
+		c.gridx = 0;
+		c.gridy = 0;
+		JLabel jlal = new JLabel ("Please Choose an Option:");
+		jlal.setHorizontalAlignment(JLabel.CENTER);
+		myPanel.add(jlal, c);
 
 		
 		studSchedButton = new JButton("Student Schedule Lookup");
-		studSchedButton.setSize(studSchedButton.getPreferredSize());
-		myPanel.add(studSchedButton, BorderLayout.CENTER);
+		c.gridx = 1;
+		myPanel.add(studSchedButton, c);
 		
 		studSchedButton.addActionListener(new ActionListener() {
           @Override
@@ -58,8 +71,8 @@ public class ProfessorGui {
 		});
 		
 		profSchedButton = new JButton("Professor Schedule Lookup");
-		profSchedButton.setSize(profSchedButton.getPreferredSize());
-		myPanel.add(profSchedButton, BorderLayout.CENTER);
+		c.gridy = 1;
+		myPanel.add(profSchedButton, c);
 		
 		profSchedButton.addActionListener(new ActionListener() {
 	          @Override
@@ -73,8 +86,8 @@ public class ProfessorGui {
 		
 		
 		gradeReportButton = new JButton("Grade Report");
-		gradeReportButton.setSize(gradeReportButton.getPreferredSize());
-		myPanel.add(gradeReportButton, BorderLayout.CENTER);
+		c.gridy = 2;
+		myPanel.add(gradeReportButton, c);
 		
 //		gradeReportButton.addActionListener(new ActionListener() {
 //	          @Override
@@ -86,8 +99,8 @@ public class ProfessorGui {
 //			});
 		
 		createAssignButton = new JButton("Create Assignment");
-		createAssignButton.setSize(createAssignButton.getPreferredSize());
-		myPanel.add(createAssignButton, BorderLayout.CENTER);
+		c.gridy = 3;
+		myPanel.add(createAssignButton, c);
 //		
 //		createAssignButton.addActionListener(new ActionListener() {
 //	          @Override
@@ -100,8 +113,8 @@ public class ProfessorGui {
 //			});
 //		
 		viewAssignResultsButton = new JButton("Assignment Results");
-		viewAssignResultsButton.setSize(viewAssignResultsButton.getPreferredSize());
-		myPanel.add(viewAssignResultsButton, BorderLayout.CENTER);
+		c.gridy = 4;
+		myPanel.add(viewAssignResultsButton, c);
 		
 //		viewAssignResultsButton.addActionListener(new ActionListener() {
 //	          @Override
@@ -115,8 +128,8 @@ public class ProfessorGui {
 		
 		
 		assignmentHistoryButton = new JButton("Assignment History");
-		assignmentHistoryButton.setSize(assignmentHistoryButton.getPreferredSize());
-		myPanel.add(assignmentHistoryButton, BorderLayout.CENTER);
+		c.gridy = 5;
+		myPanel.add(assignmentHistoryButton, c);
 		
 		assignmentHistoryButton.addActionListener(new ActionListener() {
 	          @Override
@@ -127,6 +140,8 @@ public class ProfessorGui {
 			
 			});
 		
+		myPanel.setOpaque(false);
+		frame.add(myPanel);
 		frame.repaint();
 			
 		

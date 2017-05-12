@@ -18,6 +18,7 @@ public class Main {
 	private static int userID;
 	private static String userPass;
 	private static int assignmentID;
+	private static Gui myGui;
 	private static StudentGui myStudentGui;
 	private static ProfessorGui myProfessorGui = null;
 	private static CreateAssignmentGui myCreateGui;
@@ -28,8 +29,9 @@ public class Main {
 	
 	public static void main(String[] args) throws SQLException {  
 	
+        myStudentGui = new StudentGui();
+		myGui = new Gui();
 		
-		Gui myGui = new Gui();
 		myGui.okButton().addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent event)
@@ -39,14 +41,11 @@ public class Main {
              
             Connection myConnection = makeConnection();
 			runUserLoginStatement(myConnection);
-			
-	        myStudentGui = new StudentGui();
-	        myGui.frame.remove(myGui.myPanel);
-	        myGui.frame.add(myStudentGui.myPanel);
-	        myGui.frame.setTitle("GradeBook Assistant - Student");
-	        myGui.frame.setSize(500,300);
-	        myGui.frame.repaint();
+			// TODO: make a conditional statement here and then run one of two fuctions
+			// one would replace the myGui.frame panel with a 
 	        myProfessorGui = new ProfessorGui();
+			Main.switchToStudentGui();
+
 	        myProfessorGui.createButton().addActionListener(new ActionListener() {
 		          @Override
 		          public void actionPerformed(ActionEvent event)
@@ -85,6 +84,24 @@ public class Main {
       
    }
 	   
+	
+	static void switchToStudentGui() {
+		myGui.frame.remove(myGui.myPanel);
+        myGui.frame.add(myStudentGui.myPanel);
+        myGui.frame.setTitle("GradeBook Assistant - Student");
+        myGui.frame.setSize(500,300);
+        myGui.frame.repaint();
+	}
+	
+	static void switchToProfessorGui() {
+		myGui.frame.remove(myGui.myPanel);
+        myGui.frame.add(myProfessorGui.myPanel);
+        myGui.frame.setTitle("GradeBook Assistant - Professor");
+        myGui.frame.setSize(500,300);
+        myGui.frame.repaint();
+	}
+	
+	
 	   
    // repeatable function that runs the sql statement represented by the string
    // TODO: CHANGE PASSWORD TO A INTEGER.PARSEINT();
