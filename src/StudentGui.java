@@ -53,7 +53,9 @@ public class StudentGui {
 		
 		c.gridx = 0;
 		c.gridy = 0;
-		myPanel.add(new JLabel ("Please Choose an Option:"), c);
+		JLabel jlal = new JLabel ("Please Choose an Option:");
+		jlal.setHorizontalAlignment(JLabel.CENTER);
+		myPanel.add(jlal, c);
 
 		studSchedButton = new JButton("Student Schedule Lookup");
 		c.gridx = 1;

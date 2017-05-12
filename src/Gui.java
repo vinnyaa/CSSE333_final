@@ -33,6 +33,7 @@ public class Gui {
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		l = new JLabel("Enter User Name");
+		l.setHorizontalAlignment(JLabel.CENTER);
 		l.setLocation(10,10);
 		l.setSize(l.getPreferredSize());
 		frame.add(l);
