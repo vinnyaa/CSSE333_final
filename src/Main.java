@@ -27,6 +27,8 @@ public class Main {
 	private static StudentGradeReportGui myStuGradeReport;
 	private static AssignAssignmentGui myAssignAssignment;
 	private static ViewAssignmentResultsGui myAssignmentResultsGui;
+	private static StudentScheduleGui myStudentSchedule;
+	private static ProfessorScheduleGui myProfessorSchedule;
 	public enum Mode {
 	    LOGIN,
 	    STUDENT,
@@ -90,6 +92,22 @@ public class Main {
 			        	  assignmentResults(myAssignmentResultsGui);
 			          }
 				});
+		        myProfessorGui.studentScheduleButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+			        	  myStudentSchedule = new StudentScheduleGui();
+			        	  studentScheduleLookup(myStudentSchedule);
+			          }
+				});
+		        myProfessorGui.professorScheduleButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+			        	  myProfessorSchedule = new ProfessorScheduleGui();
+			        	  professorScheduleLookup(myProfessorSchedule);
+			          }
+				});
 			}
 			else{
 		        myStudentGui = new StudentGui();
@@ -101,6 +119,23 @@ public class Main {
 				          {
 				        	  myStuGradeReport = new StudentGradeReportGui();
 				        	  studentGradeReport(myStuGradeReport.continueButton(), myStuGradeReport);
+				          }
+					});
+			        
+			        myStudentGui.studentScheduleButton().addActionListener(new ActionListener() {
+				          @Override
+				          public void actionPerformed(ActionEvent event)
+				          {
+				        	  myStudentSchedule = new StudentScheduleGui();
+				        	  studentScheduleLookup(myStudentSchedule);
+				          }
+					});
+			        myStudentGui.professorScheduleButton().addActionListener(new ActionListener() {
+				          @Override
+				          public void actionPerformed(ActionEvent event)
+				          {
+				        	  myProfessorSchedule = new ProfessorScheduleGui();
+				        	  professorScheduleLookup(myProfessorSchedule);
 				          }
 					});
 			}
@@ -164,7 +199,6 @@ public class Main {
 			stmt.setInt(1, userID);
 			stmt.setString(2, userPass);
 			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
-//			stmt.setNull(3, java.sql.Types.VARCHAR);
 
 			stmt.execute();
 			System.out.println(stmt.getString(3));
@@ -547,6 +581,113 @@ public class Main {
 		      System.out.println("Statement Completed: ");
 		   }  
 	   }
+	   
+	   public static void studentScheduleLookup(StudentScheduleGui myGui){
+			myGui.continueButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  runStudentScheduleLookup(myConnection, myGui.getStudentID(), myGui.getCourseID());
+		        	  
+		          }
+			});
+		}
+	   
+	   static void runStudentScheduleLookup(Connection con, int studentID, int courseID) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+
+		   try {
+
+			   	stmt = con.prepareCall("{call StudentSchedule(?,?)}");
+				stmt.setInt(1, studentID);
+				System.out.println(courseID);
+				if (-1 != courseID)
+					stmt.setInt(2, courseID);
+				else
+					stmt.setNull(2, java.sql.Types.INTEGER);
+
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
+	   
+	   public static void professorScheduleLookup(ProfessorScheduleGui myGui){
+			myGui.continueButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  runProfessorScheduleLookup(myConnection, myGui.getProfessorID(), myGui.getCourseID());
+		        	  
+		          }
+			});
+		}
+	   
+	   static void runProfessorScheduleLookup(Connection con, int professorID, int courseID) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+
+		   try {
+
+			   	stmt = con.prepareCall("{call ProfessorSchedule(?,?)}");
+				stmt.setInt(1, professorID);
+				
+				if (-1 != courseID)
+					stmt.setInt(2, courseID);
+				else
+					stmt.setNull(2, java.sql.Types.INTEGER);
+
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
+	   
 
    
    

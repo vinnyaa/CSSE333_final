@@ -59,27 +59,27 @@ public class StudentGui {
 		c.gridx = 1;
 		myPanel.add(studSchedButton, c);
 		
-		studSchedButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent event)
-          {
-             System.out.println("Stu Schedule has been pressed");
-          }
-		
-		});
+//		studSchedButton.addActionListener(new ActionListener() {
+//          @Override
+//          public void actionPerformed(ActionEvent event)
+//          {
+//             System.out.println("Stu Schedule has been pressed");
+//          }
+//		
+//		});
 		
 		profSchedButton = new JButton("Professor Schedule Lookup");
 		c.gridy = 1;
 		myPanel.add(profSchedButton, c);
 		
-		profSchedButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Prof Schedule has been pressed");
-	          }
-			
-			});
+//		profSchedButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Prof Schedule has been pressed");
+//	          }
+//			
+//			});
 		
 		
 		
@@ -139,6 +139,14 @@ public class StudentGui {
 	}
 	public JButton studGradeReportButton(){
 		return gradeReportButton;
+	}
+	
+	public JButton studentScheduleButton(){
+		return studSchedButton;
+	}
+	
+	public JButton professorScheduleButton(){
+		return profSchedButton;
 	}
 	
 
