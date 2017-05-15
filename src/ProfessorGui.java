@@ -32,13 +32,13 @@ public class ProfessorGui {
 	
 	
 	ProfessorGui() {
-		
-		frame = new JFrame("GradeBook Assistant - Professor");
-		frame.setSize(500, 370);
-		frame.getContentPane().setBackground(Color.orange);
-		frame.setLocation(300, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+//		
+//		frame = new JFrame("GradeBook Assistant - Professor");
+//		frame.setSize(500, 370);
+//		frame.getContentPane().setBackground(Color.orange);
+//		frame.setLocation(300, 500);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
 		
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
@@ -141,8 +141,8 @@ public class ProfessorGui {
 			});
 		
 		myPanel.setOpaque(false);
-		frame.add(myPanel);
-		frame.repaint();
+//		frame.add(myPanel);
+//		frame.repaint();
 			
 		
 		

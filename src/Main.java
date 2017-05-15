@@ -24,6 +24,7 @@ public class Main {
 	private static CreateAssignmentGui myCreateGui;
 	private static CreateNewQuestionGui newQuestionGui;
 	private static ProfessorGradeReportGui myProfGradeReport;
+	private static StudentGradeReportGui myStuGradeReport;
 	private static AssignAssignmentGui myAssignAssignment;
 	private static ViewAssignmentResultsGui myAssignmentResultsGui;
 	public enum Mode {
@@ -34,8 +35,19 @@ public class Main {
 	private static Mode mode = Mode.LOGIN;
 	
 	public static void main(String[] args) throws SQLException {  
-	
-        myStudentGui = new StudentGui();
+//	
+//        myStudentGui = new StudentGui();
+//    
+//        myStudentGui.studGradeReportButton().addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	        	  myStuGradeReport = new StudentGradeReportGui();
+//	        	  studentGradeReport(myStuGradeReport.continueButton(), myStuGradeReport);
+//	          }
+//		});
+        
+        
 		myGui = new Gui();
 		
 		myGui.okButton().addActionListener(new ActionListener() {
@@ -46,37 +58,60 @@ public class Main {
              userPass = myGui.getPass();
              
             Connection myConnection = makeConnection();
-			runUserLoginStatement(myConnection);
+			String userType = runUserLoginStatement(myConnection);
+            //runUserLoginStatement(myConnection);
+			
+			if (userType.equals("professor")){
+				myProfessorGui = new ProfessorGui();
+				Main.switchToProfessorGui();
+				
+		        myProfessorGui.createButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+			        	  myCreateGui = new CreateAssignmentGui();
+			        	  createAssignmentButtonPressed(myCreateGui.continueButton());
+			        	          	  
+			          }
+				});
+		        myProfessorGui.profGradeReportButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+			        	  myProfGradeReport = new ProfessorGradeReportGui();
+			        	  professorGradeReport(myProfGradeReport.continueButton(), myProfGradeReport);
+			          }
+				});
+		        myProfessorGui.viewResultsButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+			        	  myAssignmentResultsGui = new ViewAssignmentResultsGui();
+			        	  assignmentResults(myAssignmentResultsGui);
+			          }
+				});
+			}
+			else{
+		        myStudentGui = new StudentGui();
+		        Main.switchToStudentGui();
+			    
+			        myStudentGui.studGradeReportButton().addActionListener(new ActionListener() {
+				          @Override
+				          public void actionPerformed(ActionEvent event)
+				          {
+				        	  myStuGradeReport = new StudentGradeReportGui();
+				        	  studentGradeReport(myStuGradeReport.continueButton(), myStuGradeReport);
+				          }
+					});
+			}
+			
+			
 			// TODO: make a conditional statement here and then run one of two fuctions
 			// one would replace the myGui.frame panel with a 
-	        myProfessorGui = new ProfessorGui();
-			Main.switchToStudentGui();
+//	        myProfessorGui = new ProfessorGui();
+//			Main.switchToStudentGui();
 
-	        myProfessorGui.createButton().addActionListener(new ActionListener() {
-		          @Override
-		          public void actionPerformed(ActionEvent event)
-		          {
-		        	  myCreateGui = new CreateAssignmentGui();
-		        	  createAssignmentButtonPressed(myCreateGui.continueButton());
-		        	          	  
-		          }
-			});
-	        myProfessorGui.profGradeReportButton().addActionListener(new ActionListener() {
-		          @Override
-		          public void actionPerformed(ActionEvent event)
-		          {
-		        	  myProfGradeReport = new ProfessorGradeReportGui();
-		        	  professorGradeReport(myProfGradeReport.continueButton(), myProfGradeReport);
-		          }
-			});
-	        myProfessorGui.viewResultsButton().addActionListener(new ActionListener() {
-		          @Override
-		          public void actionPerformed(ActionEvent event)
-		          {
-		        	  myAssignmentResultsGui = new ViewAssignmentResultsGui();
-		        	  assignmentResults(myAssignmentResultsGui);
-		          }
-			});
+
 	        
 	        
 	        
@@ -120,38 +155,44 @@ public class Main {
 	   
    // repeatable function that runs the sql statement represented by the string
    // TODO: CHANGE PASSWORD TO A INTEGER.PARSEINT();
-   static void runUserLoginStatement(Connection con) {
+   static String runUserLoginStatement(Connection con) {
 	   CallableStatement stmt = null;  
 	   ResultSet rs = null;
 	   try {
 
-		   	stmt = con.prepareCall("{call UserLogin(?,?)}");
+		   	stmt = con.prepareCall("{call UserLogin(?,?,?)}");
 			stmt.setInt(1, userID);
 			stmt.setString(2, userPass);
+			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
+//			stmt.setNull(3, java.sql.Types.VARCHAR);
 
-			rs = stmt.executeQuery();
+			stmt.execute();
+			System.out.println(stmt.getString(3));
+			return stmt.getString(3);
 
-	       if(!(rs == null)) {
-		       int col_label_count = rs.getMetaData().getColumnCount();
-		       System.out.println(col_label_count);
-			   for (int i = 1; i <= col_label_count; i++){
-			        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
-		        }
-		        System.out.println("\b");
-		         while (rs.next()) {  
-		        	 for (int i = 1; i <= col_label_count; i++){
-		 		        System.out.print(rs.getString(i) + "\t");
-		 	        }
-		 	        System.out.println("\b");
-		         }  
-	       }
+//	       if(!(rs == null)) {
+//		       int col_label_count = rs.getMetaData().getColumnCount();
+//		       System.out.println(col_label_count);
+//			   for (int i = 1; i <= col_label_count; i++){
+//			        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+//		        }
+//		        System.out.println("\b");
+//		         while (rs.next()) {  
+//		        	 for (int i = 1; i <= col_label_count; i++){
+//		 		        System.out.print(rs.getString(i) + "\t");
+//		 	        }
+//		 	        System.out.println("\b");
+//		         }  
+//	       }
 	   } catch (Exception e) {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}  
 	      if (rs != null) try { con.close(); } catch(Exception e) {}  
 	      System.out.println("Statement Completed: ");
-	   }  
+	   }
+	   return null;
+ 
    }
    
    // TODO: check for special characters and make sure that no attacks happen
@@ -441,6 +482,63 @@ public class Main {
 				         }  
 			       }
 	
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
+	
+	   public static void studentGradeReport(JButton myButton, StudentGradeReportGui myGui){
+			myButton.addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  runStudentGradeReport(myConnection, myGui.getCourseID());
+		        	  
+		          }
+			});
+		}
+	   
+	   static void runStudentGradeReport(Connection con, int course) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+
+		   try {
+
+			   	stmt = con.prepareCall("{call StudentGradeReport(?,?)}");
+				stmt.setInt(1, userID);
+				
+				System.out.println(course);
+				
+				if (-1 != course)
+					stmt.setInt(2, course);
+				else
+					stmt.setNull(2, java.sql.Types.INTEGER);
+
+				
+
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+
 		       
 		   } catch (Exception e) {
 			   e.printStackTrace();
