@@ -86,8 +86,13 @@ public class Gui {
 		return Integer.parseInt(field.getText());
 	}
 	
-	public String getPass(){
-		return passwordField.getText();
+	public int getPass(){
+		
+		if (passwordField.getText().equals("")){
+			return -1;
+		}
+		else
+			return Integer.parseInt(passwordField.getText());
 	}
 	
 	public boolean okNotPressed(){

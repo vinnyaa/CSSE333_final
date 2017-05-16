@@ -16,7 +16,7 @@ public class Main {
 	public static String password = "password=Database37;";
 	public static String SQL = "exec testproc"; // TODO: Test sproc by putting string here
 	private static int userID;
-	private static String userPass;
+	private static int hashedUserPass;
 	private static int assignmentID;
 	private static Gui myGui;
 	private static StudentGui myStudentGui;
@@ -57,7 +57,9 @@ public class Main {
           public void actionPerformed(ActionEvent event)
           {
              userID = myGui.getUserID();
-             userPass = myGui.getPass();
+             hashedUserPass = myGui.getPass();
+             System.out.println(hashedUserPass);
+             
              
             Connection myConnection = makeConnection();
 			String userType = runUserLoginStatement(myConnection);
@@ -195,12 +197,24 @@ public class Main {
 	   ResultSet rs = null;
 	   try {
 
-		   	stmt = con.prepareCall("{call UserLogin(?,?,?)}");
-			stmt.setInt(1, userID);
-			stmt.setString(2, userPass);
+		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?)}");
+			stmt.setInt(1, userID);		
+			
+			System.out.println(hashedUserPass);
+			
+			if (-1 != hashedUserPass)
+				stmt.setInt(2, hashedUserPass);
+			else
+				stmt.setInt(2, -1);
+			
 			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
+			stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
 
 			stmt.execute();
+			System.out.println(stmt.getString(4));
+			if (stmt.getString(4) == "t"){
+				//TODO: Gui with create password needs to be displayed here
+			}
 			System.out.println(stmt.getString(3));
 			return stmt.getString(3);
 
@@ -380,12 +394,12 @@ public class Main {
 			if (-1 != course)
 				stmt.setInt(2, course);
 			else
-				stmt.setNull(2, java.sql.Types.INTEGER);
+				stmt.setInt(2, -1);
 			
 			if (-1 != section)
 				stmt.setInt(3, section);
 			else
-				stmt.setNull(3, java.sql.Types.INTEGER);
+				stmt.setInt(3, -1);
 			
 
 			rs = stmt.executeQuery();
@@ -552,7 +566,7 @@ public class Main {
 				if (-1 != course)
 					stmt.setInt(2, course);
 				else
-					stmt.setNull(2, java.sql.Types.INTEGER);
+					stmt.setInt(2, -1);
 
 				
 
@@ -607,7 +621,7 @@ public class Main {
 				if (-1 != courseID)
 					stmt.setInt(2, courseID);
 				else
-					stmt.setNull(2, java.sql.Types.INTEGER);
+					stmt.setInt(2, -1);
 
 				rs = stmt.executeQuery();
 				
@@ -660,7 +674,7 @@ public class Main {
 				if (-1 != courseID)
 					stmt.setInt(2, courseID);
 				else
-					stmt.setNull(2, java.sql.Types.INTEGER);
+					stmt.setInt(2, -1);
 
 				rs = stmt.executeQuery();
 				
