@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.w3c.dom.UserDataHandler;
+
 public class CompleteAssignmentGui {
 
 	JFrame frame; //frame
@@ -143,13 +145,16 @@ public class CompleteAssignmentGui {
 		
 		
 		// jbutton for submitting the answer
-		submitAnswerButton = new JButton("Sumbit Answer");
+		submitAnswerButton = new JButton("Submit Answer");
 		submitAnswerButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: inset code here to send the current answer to the 
 				// database if it's valid
+				submitAnswer();
+				
+				
 				
 			}
 		});
@@ -207,8 +212,9 @@ public class CompleteAssignmentGui {
 		questionIdBox.removeAllItems();
 		try {
 
-		   	stmt = con.prepareCall("{call GetQuestions(?)}");
-			stmt.setInt(1, assignID.get(assignmentIdBox.getSelectedIndex()));
+		   	stmt = con.prepareCall("{call GetQuestions(?,?)}");
+		   	stmt.setInt(1, Main.userID);
+			stmt.setInt(2, assignID.get(assignmentIdBox.getSelectedIndex()));
 			ResultSet rs = stmt.executeQuery();			
 			
 			if(!(rs == null)) {
@@ -291,6 +297,25 @@ public class CompleteAssignmentGui {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 //	      System.out.println("Statement Completed: ");
 	   }
+	}
+	
+	private void submitAnswer() {
+		Connection con = Main.makeConnection();
+		CallableStatement stmt = null;
+		try {
+		   	stmt = con.prepareCall("{call AnswerQuestion(?,?,?,?)}");
+			stmt.setInt(1, assignID.get(assignmentIdBox.getSelectedIndex()));
+			stmt.setInt(2, questID.get(questionIdBox.getSelectedIndex()));
+			stmt.setInt(3, Main.userID);
+			stmt.setInt(4, answerNumber.get(answerBox.getSelectedIndex()));
+			stmt.execute();
+		}
+		 catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+//		      System.out.println("Statement Completed: ");
+		   }  
 	}
 	
 }

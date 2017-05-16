@@ -372,6 +372,7 @@ public class Main {
 	   }  
    }
    
+   
    public static void professorGradeReport(JButton myButton, ProfessorGradeReportGui myGui){
 		myButton.addActionListener(new ActionListener() {
 	          @Override
