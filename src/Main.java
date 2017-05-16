@@ -29,6 +29,7 @@ public class Main {
 	private static ViewAssignmentResultsGui myAssignmentResultsGui;
 	private static StudentScheduleGui myStudentSchedule;
 	private static ProfessorScheduleGui myProfessorSchedule;
+	private static MakePasswordGui myPassGui;
 	public enum Mode {
 	    LOGIN,
 	    STUDENT,
@@ -212,8 +213,10 @@ public class Main {
 
 			stmt.execute();
 			System.out.println(stmt.getString(4));
-			if (stmt.getString(4) == "t"){
-				//TODO: Gui with create password needs to be displayed here
+			if (stmt.getString(4).equals("t")){
+				myPassGui = new MakePasswordGui();
+				makePassword(myPassGui);
+
 			}
 			System.out.println(stmt.getString(3));
 			return stmt.getString(3);
@@ -675,6 +678,55 @@ public class Main {
 					stmt.setInt(2, courseID);
 				else
 					stmt.setInt(2, -1);
+
+				rs = stmt.executeQuery();
+				
+				if(!(rs == null)) {
+				       int col_label_count = rs.getMetaData().getColumnCount();
+				       System.out.println(col_label_count);
+					   for (int i = 1; i <= col_label_count; i++){
+					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        }
+				        System.out.println("\b");
+				         while (rs.next()) {  
+				        	 for (int i = 1; i <= col_label_count; i++){
+				 		        System.out.print(rs.getString(i) + "\t");
+				 	        }
+				 	        System.out.println("\b");
+				         }  
+			       }
+
+		       
+		   } catch (Exception e) {
+			   e.printStackTrace();
+		   } finally {
+		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+		      System.out.println("Statement Completed: ");
+		   }  
+	   }
+	   
+	   public static void makePassword(MakePasswordGui myGui){
+			myGui.getMyButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
+		        	  
+		          }
+			});
+		}
+	   
+	   static void runMakePassword(Connection con, int newPassword) {
+		   
+		   CallableStatement stmt = null; 
+		   ResultSet rs = null;
+
+		   try {
+
+			   	stmt = con.prepareCall("{call CreatePassword(?,?)}");
+				stmt.setInt(1, userID);
+				stmt.setInt(2, newPassword);
 
 				rs = stmt.executeQuery();
 				

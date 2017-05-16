@@ -60,15 +60,15 @@ public class MakePasswordGui {
 		myPanel.add(passField2, c);
 		
 		myButton = new JButton("Submit");
-		myButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println(MakePasswordGui.getPassword());
-	             // TODO: Actually do something when we verify the password
-	          }
-			
-			});
+//		myButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println(MakePasswordGui.getPassword());
+//	             // TODO: Actually do something when we verify the password
+//	          }
+//			
+//			});
 		c.gridy = 2;
 		myPanel.add(myButton, c);
 		
@@ -85,5 +85,9 @@ public class MakePasswordGui {
 			return (Arrays.toString(passField.getPassword()));
 		}
 		return null;
+	}
+	
+	public JButton getMyButton(){
+		return myButton;
 	}
 }
