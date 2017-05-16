@@ -15,7 +15,7 @@ public class Main {
 	public static String username = "user=KLVGradebook37;";
 	public static String password = "password=Database37;";
 	public static String SQL = "exec testproc"; // TODO: Test sproc by putting string here
-	private static int userID;
+	static int userID;
 	private static int hashedUserPass;
 	private static int assignmentID;
 	private static Gui myGui;
@@ -168,7 +168,7 @@ public class Main {
 		myGui.frame.remove(myGui.myPanel);
         myGui.frame.add(myStudentGui.myPanel);
         myGui.frame.setTitle("GradeBook Assistant - Student");
-        myGui.frame.setSize(500,300);
+        myGui.frame.setSize(500,260);
         myGui.frame.repaint();
 	}
 	

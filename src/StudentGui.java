@@ -59,42 +59,13 @@ public class StudentGui {
 		c.gridx = 1;
 		myPanel.add(studSchedButton, c);
 		
-//		studSchedButton.addActionListener(new ActionListener() {
-//          @Override
-//          public void actionPerformed(ActionEvent event)
-//          {
-//             System.out.println("Stu Schedule has been pressed");
-//          }
-//		
-//		});
-		
 		profSchedButton = new JButton("Professor Schedule Lookup");
 		c.gridy = 1;
 		myPanel.add(profSchedButton, c);
 		
-//		profSchedButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Prof Schedule has been pressed");
-//	          }
-//			
-//			});
-		
-		
-		
 		gradeReportButton = new JButton("Grade Report");
 		c.gridy = 2;
 		myPanel.add(gradeReportButton, c);
-		
-//		gradeReportButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Grade report has been pressed");
-//	          }
-//			
-//			});
 		
 		completeAssignButton = new JButton("Complete Assignment");
 		c.gridy = 3;
@@ -110,26 +81,19 @@ public class StudentGui {
 			
 			});
 		
-		
-		assignmentHistoryButton = new JButton("Assignment History");
-		c.gridy = 4;
-		myPanel.add(assignmentHistoryButton, c);
-		
-		assignmentHistoryButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Assignment history has been pressed");
-	          }
-			
-			});
-		
-//		c.gridx = 2;
-//		c.gridy = 5;
-//		myPanel.add(new JLabel(""), c);
+//		assignmentHistoryButton = new JButton("Assignment History");
+//		c.gridy = 4;
+//		myPanel.add(assignmentHistoryButton, c);
 //		
-		
-		//nah
+//		assignmentHistoryButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Assignment history has been pressed");
+//	          }
+//			
+//			});
+//		
 		myPanel.setOpaque(false);
 //		frame.add(myPanel);
 //		frame.repaint();
