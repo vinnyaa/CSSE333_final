@@ -200,6 +200,7 @@ public class CompleteAssignmentGui {
 	}
 	
 	private void makeQuestionArray(){
+		if(assignmentIdBox.getSelectedIndex() < 0) return;
 		Connection con = Main.makeConnection();
 		CallableStatement stmt = null;
 		questID = new ArrayList<Integer>();
