@@ -105,6 +105,7 @@ public class StudentGui {
 	          public void actionPerformed(ActionEvent event)
 	          {
 	             System.out.println("Complete assign has been pressed");
+	             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
 	          }
 			
 			});
