@@ -25,10 +25,12 @@ public class CompleteAssignmentGui {
 	JPanel myPanel;
 	JComboBox<Integer> assignmentIdBox;
 	JComboBox<Integer> questionIdBox;
-	JComboBox answerBox;
+	JComboBox<Integer> answerBox;
 	ArrayList<Integer> assignID;
 	ArrayList<Integer> questID;
-	JButton promptButton;
+	ArrayList<Integer> answerNumber;
+	ArrayList<String> answerText;
+	JLabel currentAnswerLabel;
 	String username;
 	String password;
 	Boolean pressed = true;
@@ -99,6 +101,9 @@ public class CompleteAssignmentGui {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Use a cases statement to activate a query to find all 
 				// answers in an assignment 
+				showQuestion();
+
+				makeAnswerArray(); // doesn't work
 				
 			}
 		});
@@ -108,13 +113,13 @@ public class CompleteAssignmentGui {
 		
 		
 		// jtextfield or jcombobox for answer to the question????
-		String[] expampleAnswers = {"Answers:", "textfield?", "or", "Combobox?", "here"};
-		answerBox = new JComboBox<String>(expampleAnswers);
+		answerBox = new JComboBox<Integer>();
 		answerBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Yeah we might not have to do much here. 
+				if (answerBox.getSelectedIndex() == -1) return;
+				currentAnswerLabel.setText(answerText.get(answerBox.getSelectedIndex()));
 				
 			}
 		});
@@ -125,23 +130,16 @@ public class CompleteAssignmentGui {
 		// hidden jlabel for showing the prompt
 		promptLabel = new JLabel("Prompt appears here");
 		promptLabel.setHorizontalAlignment(JLabel.CENTER);
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 2;
 		myPanel.add(promptLabel,c);
 		
 		// jbutton for showing the prompt
-		promptButton = new JButton("Show prompt");
-		promptButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO: retrieve the question's prompt and the answers
-				// for the answerBox
-				
-			}
-		});
-		c.gridx = 1;
-		myPanel.add(promptButton,c);
+		currentAnswerLabel = new JLabel("Current Answer Appears Here");
+		currentAnswerLabel.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 2;
+		c.gridy = 2;
+		myPanel.add(currentAnswerLabel,c);
 		
 		
 		// jbutton for submitting the answer
@@ -156,11 +154,10 @@ public class CompleteAssignmentGui {
 			}
 		});
 		c.gridy = 2;
-		c.gridx = 2;
+		c.gridx = 0;
 		myPanel.add(submitAnswerButton,c);
 		
 		makeAssignmentArray();
-//		makeQuestionArray(); // called when the selcted index of assignmentIdBox is set to 0
 		
 		myPanel.setOpaque(false);
 		frame.add(myPanel);
@@ -188,14 +185,14 @@ public class CompleteAssignmentGui {
 		         }  
 	       }
 			
-			System.out.println("OUTPUT ARRAY of assignments: " + assignID.toString());
+//			System.out.println("OUTPUT ARRAY of assignments: " + assignID.toString());
 
 	       
 		} catch (Exception e) {
 		   e.printStackTrace();
 	   	} finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   	}  
 		for(int i = 0; i < assignID.size(); i++) {
 			assignmentIdBox.addItem(assignID.get(i));
@@ -214,26 +211,83 @@ public class CompleteAssignmentGui {
 			ResultSet rs = stmt.executeQuery();			
 			
 			if(!(rs == null)) {
-				int col_label_count = rs.getMetaData().getColumnCount();
+//				int col_label_count = rs.getMetaData().getColumnCount();
 		         while (rs.next()) {  
-		        	 for (int i = 1; i <= col_label_count; i++){
-		 		        questID.add(rs.getInt(i));
-		 	        }
+	 		        questID.add(rs.getInt(1));
 		         }  
 	       }
 			
-			System.out.println("OUTPUT ARRAY of questions: " + questID.toString());
+//			System.out.println("OUTPUT ARRAY of questions: " + questID.toString());
 
 	       
 	   } catch (Exception e) {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   }
 		for(int i = 0; i < questID.size(); i++) {
 			questionIdBox.addItem(questID.get(i));
 		}
+	}
+	
+	private void makeAnswerArray(){
+		Connection con = Main.makeConnection();
+		CallableStatement stmt = null;
+		answerBox.removeAllItems();
+		answerNumber = new ArrayList<Integer>();
+		answerText = new ArrayList<String>();
+		try {
+
+		   	stmt = con.prepareCall("{call GetChoices(?,?)}");
+			stmt.setInt(1, assignID.get(assignmentIdBox.getSelectedIndex()));
+			stmt.setInt(2, questID.get(questionIdBox.getSelectedIndex()));
+			ResultSet rs = stmt.executeQuery();			
+//			System.out.println(rs.getMetaData().getColumnName(1));
+//			System.out.println(rs.getMetaData().getColumnName(2));
+			if(!(rs == null)) {
+//				int col_label_count = rs.getMetaData().getColumnCount();
+				
+//				System.out.println(rs.getMetaData().getColumnCount());
+		         while (rs.next()) {  
+		        	 answerText.add(rs.getString(2));
+		        	 answerNumber.add(rs.getInt(1));
+		         }
+	       }
+			
+//			System.out.println("OUTPUT ARRAY of answers:numbers " + answerText.toString() + ":" + answerNumber.toString());
+
+	       
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   } finally {
+	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+//	      System.out.println("Statement Completed: ");
+	   }
+		for(int i = 0; i < answerNumber.size(); i++) {
+			answerBox.addItem(answerNumber.get(i));
+		}
+	}
+	
+	private void showQuestion() {
+		Connection con = Main.makeConnection();
+		CallableStatement stmt = null;
+		try {
+		   	stmt = con.prepareCall("{call GetPrompt(?,?)}");
+			stmt.setInt(1, assignID.get(assignmentIdBox.getSelectedIndex()));
+			stmt.setInt(2, questID.get(questionIdBox.getSelectedIndex()));
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+//			System.out.println("Prompt: " + rs.getString(1));
+			promptLabel.setText(rs.getString(1));
+
+	       
+	   } catch (Exception e) {
+		   e.printStackTrace();
+	   } finally {
+	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
+//	      System.out.println("Statement Completed: ");
+	   }
 	}
 	
 }
