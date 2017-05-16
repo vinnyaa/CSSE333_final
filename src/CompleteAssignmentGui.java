@@ -232,6 +232,7 @@ public class CompleteAssignmentGui {
 	}
 	
 	private void makeAnswerArray(){
+		if(assignmentIdBox.getSelectedIndex() < 0 || questionIdBox.getSelectedIndex() < 0) return;
 		Connection con = Main.makeConnection();
 		CallableStatement stmt = null;
 		answerBox.removeAllItems();
@@ -270,6 +271,7 @@ public class CompleteAssignmentGui {
 	}
 	
 	private void showQuestion() {
+		if(assignmentIdBox.getSelectedIndex() < 0 || questionIdBox.getSelectedIndex() < 0) return;
 		Connection con = Main.makeConnection();
 		CallableStatement stmt = null;
 		try {
