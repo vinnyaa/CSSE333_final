@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -11,6 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
+
+
 
 public class MakePasswordGui {
 	JPanel myPanel;
@@ -21,8 +29,11 @@ public class MakePasswordGui {
 	JLabel jlal;
 	JFrame frame;
 	JButton myButton;
-	
+
+
 	MakePasswordGui() {
+		
+	
 		frame = new JFrame("Password Creation");
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Color.orange);
@@ -78,16 +89,43 @@ public class MakePasswordGui {
 		frame.repaint();
 	}
 	
-	public static String getPassword(){
-		System.out.println(passField.hashCode());
-		System.out.println(Arrays.toString(passField.getPassword()));
-		if(Arrays.equals(passField.getPassword(), passField2.getPassword())) {
-			return (Arrays.toString(passField.getPassword()));
-		}
+	public static String getPassword() throws UnsupportedEncodingException{
+//		System.out.println(passField.hashCode());
+//		System.out.println(Arrays.toString(passField.getPassword()));
+//		if(Arrays.equals(passField.getPassword(), passField2.getPassword())) {
+//			return (Arrays.toString(passField.getPassword()));
+
+//		}
+//		if(passField.getPassword().hashCode() == passField2.getPassword().hashCode()){
+//			System.out.println("the passwords are equal");
+//			return passField.getPassword().toString();
+//		}
+		String hashPass1 = get_SHA_512_SecurePassword(passField.getPassword().toString(), "test");
+		String hashPass2 = get_SHA_512_SecurePassword(passField2.getPassword().toString(), "test");
+		System.out.println(hashPass1);
+		System.out.println(hashPass2);
 		return null;
 	}
 	
 	public JButton getMyButton(){
 		return myButton;
+	}
+	
+	public static String get_SHA_512_SecurePassword(String passwordToHash, String   salt) throws UnsupportedEncodingException{
+		String generatedPassword = null;
+		    try {
+		         MessageDigest md = MessageDigest.getInstance("SHA-512");
+		         md.update(salt.getBytes("UTF-8"));
+		         byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+		         StringBuilder sb = new StringBuilder();
+		         for(int i=0; i< bytes.length ;i++){
+		            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+		         }
+		         generatedPassword = sb.toString();
+		        } 
+		       catch (NoSuchAlgorithmException e){
+		        e.printStackTrace();
+		       }
+		    return generatedPassword;
 	}
 }

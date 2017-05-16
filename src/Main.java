@@ -1,6 +1,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -711,7 +712,12 @@ public class Main {
 		          public void actionPerformed(ActionEvent event)
 		          {
 		        	  Connection myConnection = makeConnection();
-		        	  runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
+		        	  try {
+						runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
+					} catch (NumberFormatException | UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		        	  
 		          }
 			});
