@@ -144,6 +144,15 @@ public class Main {
 				        	  professorScheduleLookup(myProfessorSchedule);
 				          }
 					});
+					myStudentGui.completeAssignmentButton().addActionListener(new ActionListener() {
+			          @Override
+			          public void actionPerformed(ActionEvent event)
+			          {
+//			             System.out.println("Complete assign has been pressed");
+			             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
+			          }
+					
+					});
 			}
 			
 			
@@ -307,7 +316,7 @@ public class Main {
 			stmt.setInt(1, userID);
 			stmt.setInt(2, assignmentID);
 			
-			stmt.executeQuery();
+			stmt.execute();
 
 	       
 	   } catch (Exception e) {
@@ -327,7 +336,8 @@ public class Main {
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
-	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field());
+	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field(),
+	        			  					newQuestionGui.getOption3Field(), newQuestionGui.getOption4Field());
 	        	  AssignAssignmentGui myAssignAssignment = new AssignAssignmentGui();
 	        	  handleAssignSection(myAssignAssignment, myCreateGui.getAssignmentID());
 	          }
@@ -340,14 +350,15 @@ public class Main {
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
-	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field());
+	        			  					newQuestionGui.getOption1Field(), newQuestionGui.getOption2Field(),
+	        			  					newQuestionGui.getOption3Field(), newQuestionGui.getOption4Field());
 	        	  newQuestionGui = new CreateNewQuestionGui();
 	        	  handleCreateQuestion();
 	          }
 		});
    }
    
-   static void runCreateQuestionStatement(Connection con, int id, int points, String prompt, int correct, int op1, int op2) {
+   static void runCreateQuestionStatement(Connection con, int id, int points, String prompt, int correct, String op1, String op2, String op3, String op4) {
 	   
 	   CallableStatement stmt = null; 
 
@@ -355,17 +366,18 @@ public class Main {
 
 	   try {
 
-		   	stmt = con.prepareCall("{call CreateQuestion(?,?,?,?,?,?,?,?)}");
+		   	stmt = con.prepareCall("{call CreateQuestion(?,?,?,?,?,?,?,?,?,?)}");
 			stmt.setInt(1, userID);
 			stmt.setInt(2, assignmentID);
 		   	stmt.setInt(3, id);
 			stmt.setInt(4, points);
 			stmt.setString(5, prompt);
 			stmt.setInt(6, correct);
-			stmt.setInt(7, op1);
-			stmt.setInt(8, op2);
-			
-			stmt.executeQuery();
+			stmt.setString(7, op1);
+			stmt.setString(8, op2);
+			stmt.setString(9, op3);
+			stmt.setString(10, op4);
+			stmt.execute();
 
 	       
 	   } catch (Exception e) {
@@ -475,25 +487,25 @@ public class Main {
 			    stmt.setInt(2, section);
 			    stmt.setInt(3, assignment);
 	
-				rs = stmt.executeQuery();
+				stmt.execute();
 				
-				if(!(rs == null)) {
-				       int col_label_count = rs.getMetaData().getColumnCount();
-//				       System.out.println(col_label_count);
-					   for (int i = 1; i <= col_label_count; i++){
-					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
-				        }
-				        resultString = resultString + "\n";;
-				         while (rs.next()) {  
-				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        resultString = resultString + (rs.getString(i) + "\t");
-				 	        }
-				 	        resultString = resultString + "\n";;
-				         }  
-				         OutputScreenGui myOutput = new OutputScreenGui();
-				         myOutput.addToFrame(resultString);
-			       }
-	
+//				if(!(rs == null)) {
+//				       int col_label_count = rs.getMetaData().getColumnCount();
+////				       System.out.println(col_label_count);
+//					   for (int i = 1; i <= col_label_count; i++){
+//					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
+//				        }
+//				        resultString = resultString + "\n";;
+//				         while (rs.next()) {  
+//				        	 for (int i = 1; i <= col_label_count; i++){
+//				 		        resultString = resultString + (rs.getString(i) + "\t");
+//				 	        }
+//				 	        resultString = resultString + "\n";;
+//				         }  
+//				         OutputScreenGui myOutput = new OutputScreenGui();
+//				         myOutput.addToFrame(resultString);
+//			       }
+//	
 		       
 		   } catch (Exception e) {
 			   e.printStackTrace();

@@ -29,6 +29,8 @@ public class CreateNewQuestionGui {
 	JTextField correctField;
 	JTextField option1Field;
 	JTextField option2Field;
+	JTextField option3Field;
+	JTextField option4Field;
 	JPanel myPanel;
 	JButton completeButton;
 	JButton continueButton;
@@ -44,7 +46,7 @@ public class CreateNewQuestionGui {
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);
 		frame.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//QuestionID Field
 		l = new JLabel("Enter QuestionID");
@@ -125,15 +127,43 @@ public class CreateNewQuestionGui {
 		option2Field.setLocation(150, 160);
 		frame.add(option2Field);
 		
+		//option3 field
+		l = new JLabel("Enter Option 3");
+		l.setLocation(10,190);
+		l.setSize(l.getPreferredSize());
+		frame.add(l);
+			
+		option3Field = new JTextField();
+		option3Field.setColumns(15);
+		option3Field.setSize(option3Field.getPreferredSize());
+					
+		option3Field.setLocation(150, 190);
+		frame.add(option3Field);
+		
+		
+		//option4 field
+		l = new JLabel("Enter Option 4");
+		l.setLocation(10,210);
+		l.setSize(l.getPreferredSize());
+		frame.add(l);
+			
+		option4Field = new JTextField();
+		option4Field.setColumns(15);
+		option4Field.setSize(option4Field.getPreferredSize());
+					
+		option4Field.setLocation(150, 210);
+		frame.add(option4Field);
+				
+		
 		//buttons
 		continueButton = new JButton("Continue Creating More Questions");
 		continueButton.setSize(continueButton.getPreferredSize());
-		continueButton.setLocation(150,190);
+		continueButton.setLocation(150,240);
 		frame.add(continueButton);
 		
 		completeButton = new JButton("Complete Assignment");
 		completeButton.setSize(completeButton.getPreferredSize());
-		completeButton.setLocation(150,210);
+		completeButton.setLocation(150,270);
 		frame.add(completeButton);
 		
 		
@@ -158,13 +188,24 @@ public class CreateNewQuestionGui {
 		return Integer.parseInt(correctField.getText());
 	}
 
-	public int getOption1Field() {
-		return Integer.parseInt(option1Field.getText());
+	public String getOption1Field() {
+		return option1Field.getText();
 	}
 
-	public int getOption2Field() {
-		return Integer.parseInt(option2Field.getText());
+	public String getOption2Field() {
+		return option2Field.getText();
 	}
+	
+
+	public String getOption3Field() {
+		return option3Field.getText();
+	}
+
+	public String getOption4Field() {
+		return option4Field.getText();
+	}
+	
+	
 	
 	
 	public JButton getCompleteButton(){
