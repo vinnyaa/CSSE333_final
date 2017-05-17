@@ -114,6 +114,10 @@ public class StudentGui {
 		return profSchedButton;
 	}
 	
+	public JButton completeAssignmentButton(){
+		return completeAssignButton;
+	}
+	
 
 
 	
