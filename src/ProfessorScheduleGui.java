@@ -19,11 +19,11 @@ import javax.swing.JTextField;
 public class ProfessorScheduleGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField professorIdField;
 	JTextField courseIdField;
@@ -31,7 +31,7 @@ public class ProfessorScheduleGui {
 	JButton myButton;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	ProfessorScheduleGui() {

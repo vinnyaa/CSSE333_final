@@ -19,11 +19,11 @@ import javax.swing.JTextField;
 public class StudentScheduleGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField studentIdField;
 	JTextField courseIdField;

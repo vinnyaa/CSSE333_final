@@ -17,11 +17,11 @@ import javax.swing.JTextField;
 public class CreateNewQuestionGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField idField;
 	JTextField pointsField;
@@ -34,12 +34,12 @@ public class CreateNewQuestionGui {
 	JButton continueButton;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	CreateNewQuestionGui() {
 		
-		frame = new JFrame("New Question");
+		frame = new JFrame("Create New Question");
 		frame.setSize(500, 400);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);

@@ -50,6 +50,8 @@ public class Main {
 //	        	  studentGradeReport(myStuGradeReport.continueButton(), myStuGradeReport);
 //	          }
 //		});
+		
+
         
         
 		myGui = new Gui();
@@ -60,7 +62,7 @@ public class Main {
           {
              userID = myGui.getUserID();
              hashedUserPass = myGui.getPass();
-             System.out.println(hashedUserPass);
+//             System.out.println(hashedUserPass);
              
              
             Connection myConnection = makeConnection();
@@ -155,7 +157,7 @@ public class Main {
 	        
 	        
 			if (myConnection != null) try { myConnection.close(); } catch(Exception e) {}
-			System.out.println("Connection Terminated");
+//			System.out.println("Connection Terminated");
 
           }
 		});
@@ -197,12 +199,13 @@ public class Main {
    static String runUserLoginStatement(Connection con) {
 	   CallableStatement stmt = null;  
 	   ResultSet rs = null;
+	   
 	   try {
 
 		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?)}");
 			stmt.setInt(1, userID);		
 			
-			System.out.println(hashedUserPass);
+//			System.out.println(hashedUserPass);
 			
 			if (-1 != hashedUserPass)
 				stmt.setInt(2, hashedUserPass);
@@ -213,27 +216,27 @@ public class Main {
 			stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
 
 			stmt.execute();
-			System.out.println(stmt.getString(4));
+//			System.out.println(stmt.getString(4));
 			if (stmt.getString(4).equals("t")){
 				myPassGui = new MakePasswordGui();
 				makePassword(myPassGui);
 
 			}
-			System.out.println(stmt.getString(3));
+//			System.out.println(stmt.getString(3));
 			return stmt.getString(3);
 
 //	       if(!(rs == null)) {
 //		       int col_label_count = rs.getMetaData().getColumnCount();
 //		       System.out.println(col_label_count);
 //			   for (int i = 1; i <= col_label_count; i++){
-//			        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+//			        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");().getColumnLabel(i) + "\t");
 //		        }
-//		        System.out.println("\b");
+//		        resultString = resultString + "\n";;
 //		         while (rs.next()) {  
 //		        	 for (int i = 1; i <= col_label_count; i++){
-//		 		        System.out.print(rs.getString(i) + "\t");
+//		 		        resultString = resultString + (rs.getString(i) + "\t");
 //		 	        }
-//		 	        System.out.println("\b");
+//		 	        resultString = resultString + "\n";;
 //		         }  
 //	       }
 	   } catch (Exception e) {
@@ -241,7 +244,7 @@ public class Main {
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}  
 	      if (rs != null) try { con.close(); } catch(Exception e) {}  
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   }
 	   return null;
  
@@ -249,12 +252,12 @@ public class Main {
    
    // TODO: check for special characters and make sure that no attacks happen
    String secure_string(String arg) {
-	   System.out.println("Test for special characters in the string here");
+//	   System.out.println("Test for special characters in the string here");
 	   return arg;
    }
    
    public static Connection makeConnection(){
-	   System.out.println("Attempting to connect to KLV_Gradebook");
+//	   System.out.println("Attempting to connect to KLV_Gradebook");
 		// Create a variable for the connection string.  
 		String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +  
 			"databaseName=KLV_Gradebook;"
@@ -268,7 +271,7 @@ public class Main {
 			// Establish the connection.  
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
 			con = DriverManager.getConnection(connectionUrl);  
-			System.out.println("connection established");
+//			System.out.println("connection established");
 			return con;
 		} 	 
 
@@ -311,7 +314,7 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -320,7 +323,7 @@ public class Main {
 	          @Override
 	          public void actionPerformed(ActionEvent event)
 	          {
-	        	  System.out.println("Complete button pressed");
+//	        	  System.out.println("Complete button pressed");
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
@@ -333,7 +336,7 @@ public class Main {
 	          @Override
 	          public void actionPerformed(ActionEvent event)
 	          {
-	        	  System.out.println("Continue button pressed");
+//	        	  System.out.println("Continue button pressed");
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
@@ -369,7 +372,7 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -390,6 +393,7 @@ public class Main {
 	   
 	   CallableStatement stmt = null; 
 	   ResultSet rs = null;
+	   String resultString = "";
 
 	   try {
 
@@ -411,17 +415,19 @@ public class Main {
 			
 			if(!(rs == null)) {
 			       int col_label_count = rs.getMetaData().getColumnCount();
-			       System.out.println(col_label_count);
+//			       System.out.println(col_label_count);
 				   for (int i = 1; i <= col_label_count; i++){
-				        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+				        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 			        }
-			        System.out.println("\b");
+			        resultString = resultString + "\n";
 			         while (rs.next()) {  
 			        	 for (int i = 1; i <= col_label_count; i++){
-			 		        System.out.print(rs.getString(i) + "\t");
+			 		        resultString = resultString + (rs.getString(i) + "\t");
 			 	        }
-			 	        System.out.println("\b");
+			 	        resultString = resultString + "\n";
 			         }  
+			         OutputScreenGui myOutput = new OutputScreenGui();
+			         myOutput.addToFrame(resultString);
 		       }
 
 	       
@@ -429,7 +435,7 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-	      System.out.println("Statement Completed: ");
+//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -460,6 +466,7 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 	
 		   try {
 	
@@ -472,17 +479,19 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
+//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
+				 	        resultString = resultString + "\n";;
 				         }  
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 	
 		       
@@ -510,6 +519,7 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 	
 		   try {
 	
@@ -524,15 +534,17 @@ public class Main {
 				       int col_label_count = rs.getMetaData().getColumnCount();
 				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
-				         }  
+				 	        resultString = resultString + "\n";;
+				         } 
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 	
 		       
@@ -540,7 +552,7 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-		      System.out.println("Statement Completed: ");
+//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	
@@ -560,13 +572,14 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 
 		   try {
 
 			   	stmt = con.prepareCall("{call StudentGradeReport(?,?)}");
 				stmt.setInt(1, userID);
 				
-				System.out.println(course);
+//				System.out.println(course);
 				
 				if (-1 != course)
 					stmt.setInt(2, course);
@@ -579,17 +592,19 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
+//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
+				 	        resultString = resultString + "\n";;
 				         }  
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 
 		       
@@ -597,7 +612,7 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-		      System.out.println("Statement Completed: ");
+//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -617,12 +632,13 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 
 		   try {
 
 			   	stmt = con.prepareCall("{call StudentSchedule(?,?)}");
 				stmt.setInt(1, studentID);
-				System.out.println(courseID);
+//				System.out.println(courseID);
 				if (-1 != courseID)
 					stmt.setInt(2, courseID);
 				else
@@ -632,17 +648,19 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
+//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
+				 	        resultString = resultString + "\n";;
 				         }  
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 
 		       
@@ -650,7 +668,7 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-		      System.out.println("Statement Completed: ");
+//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -670,6 +688,7 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 
 		   try {
 
@@ -685,17 +704,19 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
+//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
+				 	        resultString = resultString + "\n";;
 				         }  
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 
 		       
@@ -703,7 +724,7 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-		      System.out.println("Statement Completed: ");
+//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -728,6 +749,7 @@ public class Main {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
+		   String resultString = "";
 
 		   try {
 
@@ -739,17 +761,19 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
+//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
-					        System.out.print(rs.getMetaData().getColumnLabel(i) + "\t");
+					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
-				        System.out.println("\b");
+				        resultString = resultString + "\n";;
 				         while (rs.next()) {  
 				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        System.out.print(rs.getString(i) + "\t");
+				 		        resultString = resultString + (rs.getString(i) + "\t");
 				 	        }
-				 	        System.out.println("\b");
+				 	        resultString = resultString + "\n";;
 				         }  
+				         OutputScreenGui myOutput = new OutputScreenGui();
+				         myOutput.addToFrame(resultString);
 			       }
 
 		       
@@ -757,7 +781,7 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-		      System.out.println("Statement Completed: ");
+//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   

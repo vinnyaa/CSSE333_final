@@ -17,11 +17,11 @@ import javax.swing.JTextField;
 public class ProfessorGradeReportGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField courseIdField;
 	JTextField sectionIdField;
@@ -29,12 +29,12 @@ public class ProfessorGradeReportGui {
 	JButton myButton;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	ProfessorGradeReportGui() {
 		
-		frame = new JFrame("Assignment Results");
+		frame = new JFrame("Grade Report");
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);

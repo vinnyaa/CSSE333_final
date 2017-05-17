@@ -12,31 +12,32 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class Gui {
+public class OutputScreenGui {
 	
 	JFrame frame; //frame
 	JTextField field;
 	JPasswordField passwordField;
-	JLabel l; //used for printing on frame
-	JButton myButton;
-	JPanel myPanel;
+	public static JTextArea l; //used for printing on frame
+	public static JPanel myPanel;
 	String username;
 	String password;
+	public static GridBagConstraints c;
 //	Boolean pressed = true;
 	
 	
-	Gui() {
+	OutputScreenGui() {
 		
-		frame = new JFrame("GradeBook Assistant Login");
+		frame = new JFrame("Gradebook Assistant");
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 		
 		GridBagLayout layout = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets.set(10, 10, 10, 10);
 		c.anchor = GridBagConstraints.NORTHWEST; // Basically is it centered, align left/right, up/down
@@ -45,32 +46,6 @@ public class Gui {
 		
 		myPanel = new JPanel(layout);
 		
-		c.weightx = .3;
-		c.gridx = 0;
-		c.gridy = 0;
-		l = new JLabel("Enter User Name");
-		l.setHorizontalAlignment(JLabel.CENTER);
-		myPanel.add(l,c);
-				
-		c.gridx = 0;
-		c.gridy = 1;
-		l = new JLabel("Enter Password");
-		l.setHorizontalAlignment(JLabel.CENTER);
-		myPanel.add(l,c);
-		
-		c.gridy = 0;
-		c.gridx = 1;
-		field = new JTextField();	
-		myPanel.add(field, c);
-		
-		c.gridy = 1;
-		passwordField = new JPasswordField();		
-		myPanel.add(passwordField, c);
-		
-		c.gridx = 1;
-		c.gridy = 2;
-		myButton = new JButton("OK");
-		myPanel.add(myButton, c);
 		
 		myPanel.setOpaque(false);
 		frame.add(myPanel);
@@ -81,27 +56,23 @@ public class Gui {
 		
 	}
 	
+
 	
-	public int getUserID(){
-		return Integer.parseInt(field.getText());
-	}
-	
-	public int getPass(){
+	public static void addToFrame(String s){
 		
-		if (passwordField.getText().equals("")){
-			return -1;
-		}
-		else
-			return Integer.parseInt(passwordField.getText());
+		c.weightx = .3;
+		c.gridx = 0;
+		c.gridy = 0;
+		l = new JTextArea(s);
+		l.setBackground(Color.orange);
+//		l.set
+//		l.setHorizontalAlignment(JTextArea.CENTER_ALIGNMENT);
+		myPanel.add(l,c);
+		
+		
 	}
 	
-//	public boolean okNotPressed(){
-//		return pressed;
-//	}
-	
-	public JButton okButton(){
-		return myButton;
-	}
+
 
 
 	

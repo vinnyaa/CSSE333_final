@@ -17,23 +17,23 @@ import javax.swing.JTextField;
 public class CreateAssignmentGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField idField;
 	JPanel myPanel;
 	JButton myButton;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	CreateAssignmentGui() {
 		
-		frame = new JFrame("GradeBook Assistant");
+		frame = new JFrame("Create Assignment");
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);

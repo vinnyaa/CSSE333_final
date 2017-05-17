@@ -71,15 +71,15 @@ public class StudentGui {
 		c.gridy = 3;
 		myPanel.add(completeAssignButton, c);
 		
-		completeAssignButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Complete assign has been pressed");
-	             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
-	          }
-			
-			});
+//		completeAssignButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Complete assign has been pressed");
+//	             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
+//	          }
+//			
+//			});
 		
 //		assignmentHistoryButton = new JButton("Assignment History");
 //		c.gridy = 4;

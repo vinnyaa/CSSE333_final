@@ -23,11 +23,11 @@ import javax.swing.SwingUtilities;
 public class ViewAssignmentResultsGui {
 	
 	JFrame frame; //frame
-	JButton studSchedButton;
-	JButton profSchedButton;
-	JButton gradeReportButton;
-	JButton completeAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton studSchedButton;
+//	JButton profSchedButton;
+//	JButton gradeReportButton;
+//	JButton completeAssignButton;
+//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField assignmentID;
 	JTextField sectionID;
@@ -35,12 +35,12 @@ public class ViewAssignmentResultsGui {
 	JButton completeButton;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	ViewAssignmentResultsGui() {
 		
-		frame = new JFrame("GradeBook Assistant");
+		frame = new JFrame("View Assignment Results");
 		frame.setSize(400, 150);
 		frame.getContentPane().setBackground(Color.orange);
 		frame.setLocation(300, 200);

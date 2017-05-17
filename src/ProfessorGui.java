@@ -23,12 +23,12 @@ public class ProfessorGui {
 	JButton profSchedButton;
 	JButton gradeReportButton;
 	JButton createAssignButton;
-	JButton assignmentHistoryButton;
+//	JButton assignmentHistoryButton;
 	JButton viewAssignResultsButton;
 	JPanel myPanel;
 	String username;
 	String password;
-	Boolean pressed = true;
+//	Boolean pressed = true;
 	
 	
 	ProfessorGui() {
@@ -74,15 +74,15 @@ public class ProfessorGui {
 		c.gridy = 1;
 		myPanel.add(profSchedButton, c);
 		
-		profSchedButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Prof Schedule has been pressed");
-	          }
-			
-			});
-		
+//		profSchedButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Prof Schedule has been pressed");
+//	          }
+//			
+//			});
+//		
 		
 		
 		gradeReportButton = new JButton("Grade Report");
@@ -127,18 +127,18 @@ public class ProfessorGui {
 		
 		
 		
-		assignmentHistoryButton = new JButton("Assignment History");
-		c.gridy = 5;
-		myPanel.add(assignmentHistoryButton, c);
-		
-		assignmentHistoryButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             System.out.println("Assignment history has been pressed");
-	          }
-			
-			});
+//		assignmentHistoryButton = new JButton("Assignment History");
+//		c.gridy = 5;
+//		myPanel.add(assignmentHistoryButton, c);
+//		
+//		assignmentHistoryButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             System.out.println("Assignment history has been pressed");
+//	          }
+//			
+//			});
 		
 		myPanel.setOpaque(false);
 //		frame.add(myPanel);
