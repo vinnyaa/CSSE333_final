@@ -275,7 +275,7 @@ public class Main {
 
 
 	   } catch (Exception e) {
-		   e.printStackTrace();
+		   ErrorGui myError = new ErrorGui(e.getMessage());
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}  
 	      if (rs != null) try { con.close(); } catch(Exception e) {}  
@@ -310,7 +310,7 @@ public class Main {
 		} 	 
 
 		catch (Exception e) {  
-			e.printStackTrace();  
+			ErrorGui myError = new ErrorGui(e.getMessage());  
 		}  
 		
 		return null;
@@ -345,7 +345,7 @@ public class Main {
 
 	       
 	   } catch (Exception e) {
-		   e.printStackTrace();
+		   ErrorGui myError = new ErrorGui(e.getMessage());
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 	   }  
@@ -403,7 +403,7 @@ public class Main {
 
 	       
 	   } catch (Exception e) {
-		   e.printStackTrace();
+		   ErrorGui myError = new ErrorGui(e.getMessage());
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 	   }  
@@ -490,7 +490,7 @@ public class Main {
 
 	       
 	   } catch (Exception e) {
-		   e.printStackTrace();
+		   ErrorGui myError = new ErrorGui(e.getMessage());
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 	   }  
@@ -536,7 +536,7 @@ public class Main {
 				
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		      System.out.println("Statement Completed: ");
@@ -576,23 +576,49 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
+				       // start try
+				       ArrayList<Object> results = new ArrayList<Object>();
+				       ArrayList<Object> meta_results = new ArrayList<Object>();
+				       
+				       System.out.println(col_label_count);
+				       ArrayList<String> headers = new ArrayList<String>();
+				       // end try
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
+					        headers.add(rs.getMetaData().getColumnLabel(i));
 				        }
 				        resultString = resultString + "\n";;
-				         while (rs.next()) {  
+				         while (rs.next()) { 
+				        	results = new ArrayList<Object>();
+
 				        	 for (int i = 1; i <= col_label_count; i++){
 				 		        resultString = resultString + (rs.getString(i) + "\t");
+				 		        results.add(rs.getString(i));
 				 	        }
+				        	meta_results.add(results);
 				 	        resultString = resultString + "\n";;
-				         } 
+				         }
+				         System.out.println(headers.toString());
+				         System.out.println(meta_results.toString());
+				         Object[] header_array = new Object[headers.size()];
+				         header_array = headers.toArray(header_array);
+				         Object[][] results_array = new Object[meta_results.size() + 1][results.size()];
+				         results_array[0] = header_array;
+				         for (int i = 0; i < meta_results.size(); i++) {
+				        	 String[] thing = new String[((ArrayList<String>) meta_results.get(i)).size()];
+				        	 thing = ((ArrayList<String>) meta_results.get(i)).toArray(thing);
+				        	 results_array[i + 1] = thing;
+				         }
+				         JTable la_table = new JTable(results_array, header_array);
+				         la_table.setGridColor(back_color);
 				         OutputScreenGui myOutput = new OutputScreenGui();
-				         myOutput.addToFrame(resultString);
+//				         myOutput.addToFrame(resultString);
+				         myOutput.addTableToFrame(la_table);
 			       }
 	
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		   }  
@@ -674,7 +700,7 @@ public class Main {
 
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		   }  
@@ -753,7 +779,7 @@ public class Main {
 
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		   }  
@@ -833,7 +859,7 @@ public class Main {
 
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		   }  
@@ -855,13 +881,13 @@ public class Main {
 		        		}
 					} catch (NumberFormatException | UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ErrorGui myError = new ErrorGui(e.getMessage());
 					} catch (GeneralSecurityException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ErrorGui myError = new ErrorGui(e.getMessage());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ErrorGui myError = new ErrorGui(e.getMessage());
 					}
 		        	  
 		          }
@@ -884,7 +910,7 @@ public class Main {
 
 		       
 		   } catch (Exception e) {
-			   e.printStackTrace();
+			   ErrorGui myError = new ErrorGui(e.getMessage());
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
 		   }  
