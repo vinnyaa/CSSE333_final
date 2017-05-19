@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.UnsupportedEncodingException;
@@ -31,6 +32,7 @@ public class Main {
 	private static StudentScheduleGui myStudentSchedule;
 	private static ProfessorScheduleGui myProfessorSchedule;
 	private static MakePasswordGui myPassGui;
+	public static Color back_color = Color.orange;
 	public enum Mode {
 	    LOGIN,
 	    STUDENT,
@@ -53,8 +55,9 @@ public class Main {
 		
 
         
-        
 		myGui = new Gui();
+        new MakePasswordGui();
+
 		
 		myGui.okButton().addActionListener(new ActionListener() {
           @Override
@@ -177,28 +180,34 @@ public class Main {
 	   
 	
 	static void switchToStudentGui() {
+		back_color = Color.green;
 		myGui.frame.remove(myGui.myPanel);
         myGui.frame.add(myStudentGui.myPanel);
         myGui.frame.setTitle("GradeBook Assistant - Student");
         myGui.frame.setSize(500,260);
+		myGui.frame.getContentPane().setBackground(Main.back_color);
         myGui.frame.repaint();
 	}
 	
 	static void switchToProfessorGui() {
+		back_color = Color.red;
 		myGui.frame.remove(myGui.myPanel);
         myGui.frame.add(myProfessorGui.myPanel);
         myGui.frame.setTitle("GradeBook Assistant - Professor");
         myGui.frame.setSize(500,370);
+		myGui.frame.getContentPane().setBackground(Main.back_color);
         myGui.frame.repaint();
 	}
 	
 	static void switchToLoginGui() {
+		back_color = Color.orange;
 		if(mode == Mode.STUDENT) {
 			myGui.frame.remove(myStudentGui.myPanel);
 		} else if (mode == Mode.PROFESSOR){
 			myGui.frame.remove(myGui.myPanel);
 		}
-		
+		myGui.frame.getContentPane().setBackground(Main.back_color);
+
 	}
 	
 	
@@ -741,20 +750,20 @@ public class Main {
 	   }
 	   
 	   public static void makePassword(MakePasswordGui myGui){
-			myGui.getMyButton().addActionListener(new ActionListener() {
-		          @Override
-		          public void actionPerformed(ActionEvent event)
-		          {
-		        	  Connection myConnection = makeConnection();
-		        	  try {
-						runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
-					} catch (NumberFormatException | UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		        	  
-		          }
-			});
+//			myGui.getMyButton().addActionListener(new ActionListener() {
+//		          @Override
+//		          public void actionPerformed(ActionEvent event)
+//		          {
+//		        	  Connection myConnection = makeConnection();
+//		        	  try {
+//						runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
+//					} catch (NumberFormatException | UnsupportedEncodingException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//		        	  
+//		          }
+//			});
 		}
 	   
 	   static void runMakePassword(Connection con, int newPassword) {

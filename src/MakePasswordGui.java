@@ -1,12 +1,13 @@
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import javax.swing.JPasswordField;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 
 
@@ -29,14 +31,18 @@ public class MakePasswordGui {
 	JLabel jlal;
 	JFrame frame;
 	JButton myButton;
+	
+	
+	
+	
+    
 
 
 	MakePasswordGui() {
-		
-	
+				
 		frame = new JFrame("Password Creation");
 		frame.setSize(500, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -71,15 +77,20 @@ public class MakePasswordGui {
 		myPanel.add(passField2, c);
 		
 		myButton = new JButton("Submit");
-//		myButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println(MakePasswordGui.getPassword());
-//	             // TODO: Actually do something when we verify the password
-//	          }
-//			
-//			});
+		myButton.addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent event)
+	          {
+	             try {
+					System.out.println(MakePasswordGui.getPassword());
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	             // TODO: Actually do something when we verify the password
+	          }
+			
+			});
 		c.gridy = 2;
 		myPanel.add(myButton, c);
 		
@@ -90,6 +101,7 @@ public class MakePasswordGui {
 	}
 	
 	public static String getPassword() throws UnsupportedEncodingException{
+		
 //		System.out.println(passField.hashCode());
 //		System.out.println(Arrays.toString(passField.getPassword()));
 //		if(Arrays.equals(passField.getPassword(), passField2.getPassword())) {
@@ -100,9 +112,13 @@ public class MakePasswordGui {
 //			System.out.println("the passwords are equal");
 //			return passField.getPassword().toString();
 //		}
+		
+		
 		String hashPass1 = get_SHA_512_SecurePassword(passField.getPassword().toString(), "test");
 		String hashPass2 = get_SHA_512_SecurePassword(passField2.getPassword().toString(), "test");
+		System.out.println(passField.getPassword());
 		System.out.println(hashPass1);
+		System.out.println(passField.getPassword());
 		System.out.println(hashPass2);
 		return null;
 	}

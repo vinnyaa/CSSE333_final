@@ -38,7 +38,7 @@ public class StudentScheduleGui {
 		
 		frame = new JFrame("Student Schedule Lookup");
 		frame.setSize(500, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 //		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

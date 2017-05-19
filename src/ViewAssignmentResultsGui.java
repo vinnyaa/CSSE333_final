@@ -42,7 +42,7 @@ public class ViewAssignmentResultsGui {
 		
 		frame = new JFrame("View Assignment Results");
 		frame.setSize(400, 150);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		

@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,33 +36,43 @@ public class CreateAssignmentGui {
 	CreateAssignmentGui() {
 		
 		frame = new JFrame("Create Assignment");
-		frame.setSize(500, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.setSize(500, 150);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
-		frame.setLayout(null);
+//		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.fill = GridBagConstraints.HORIZONTAL; // only expand horizontally to fill grid
+		c.anchor = GridBagConstraints.CENTER; // Basically is it centered, align left/right, up/down
+		c.insets.set(10, 10, 10, 10);
+		c.weightx = .4; // how much of the grid square should the item fill in the x direction (.2 = 20%)
+		c.weighty = 1; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
+		c.gridwidth = 1;
+		
+		myPanel = new JPanel(layout);
+		
 		l = new JLabel("Enter AssignmentID");
-		l.setLocation(10,10);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 0;
+		myPanel.add(l, c);
 				
 		idField = new JTextField();
-		idField.setColumns(15);
-		idField.setSize(idField.getPreferredSize());
+		c.gridx = 1;
+		myPanel.add(idField, c);
 		
-		idField.setLocation(150, 10);
-		//field.setToolTipText("Enter User Name");
-		frame.add(idField);
 		
 		myButton = new JButton("Continue");
-		myButton.setSize(myButton.getPreferredSize());
-		myButton.setLocation(150,80);
-		frame.add(myButton);
+		c.gridy = 1;
+		myPanel.add(myButton, c);
 		
-		
-		
+		myPanel.setOpaque(false);
+		frame.add(myPanel);		
 		frame.setVisible(true);
+		frame.repaint();
 	}
 	
 	public int getAssignmentID(){

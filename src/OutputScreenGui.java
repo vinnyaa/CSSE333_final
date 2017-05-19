@@ -32,7 +32,7 @@ public class OutputScreenGui {
 		
 		frame = new JFrame("Gradebook Assistant");
 		frame.setSize(500, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 		
@@ -64,8 +64,7 @@ public class OutputScreenGui {
 		c.gridx = 0;
 		c.gridy = 0;
 		l = new JTextArea(s);
-		l.setBackground(Color.orange);
-//		l.set
+		l.setBackground(Main.back_color);
 //		l.setHorizontalAlignment(JTextArea.CENTER_ALIGNMENT);
 		myPanel.add(l,c);
 		

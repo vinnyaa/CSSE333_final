@@ -40,7 +40,7 @@ public class CompleteAssignmentGui {
 	CompleteAssignmentGui() {
 		frame = new JFrame("Complete Assignment");
 		frame.setSize(700, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		

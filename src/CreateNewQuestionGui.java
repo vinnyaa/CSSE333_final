@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,131 +45,129 @@ public class CreateNewQuestionGui {
 		
 		frame = new JFrame("Create New Question");
 		frame.setSize(500, 400);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
-		frame.setLayout(null);
+//		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.fill = GridBagConstraints.HORIZONTAL; // only expand horizontally to fill grid
+		c.anchor = GridBagConstraints.CENTER; // Basically is it centered, align left/right, up/down
+		c.insets.set(10, 10, 10, 10);
+		c.weightx = .4; // how much of the grid square should the item fill in the x direction (.2 = 20%)
+		c.weighty = 1; // how much of the grid to use vertically. 1 (100%) spaces our items out vertically
+		c.gridwidth = 1;
+		
+		myPanel = new JPanel(layout);
 		
 		//QuestionID Field
 		l = new JLabel("Enter QuestionID");
-		l.setLocation(10,10);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
-				
-		idField = new JTextField();
-		idField.setColumns(15);
-		idField.setSize(idField.getPreferredSize());
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 0;
+		myPanel.add(l, c);
 		
-		idField.setLocation(150, 10);
-		frame.add(idField);
+		idField = new JTextField();
+		c.gridx = 1;
+		myPanel.add(idField, c);
 		
 		//Points field
 		l = new JLabel("Enter Points");
-		l.setLocation(10,40);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 1;
+		myPanel.add(l, c);
 		
 		pointsField = new JTextField();
-		pointsField.setColumns(15);
-		pointsField.setSize(pointsField.getPreferredSize());
-		
-		pointsField.setLocation(150, 40);
-		frame.add(pointsField);
+		c.gridx = 1;
+		myPanel.add(pointsField, c);
 		
 		//prompt field
 		l = new JLabel("Enter Prompt");
-		l.setLocation(10,70);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 2;
+		myPanel.add(l, c);
 		
 		promptField = new JTextField();
-		promptField.setColumns(15);
-		promptField.setSize(promptField.getPreferredSize());
+		c.gridx = 1;
+		c.gridy = 2;
+		myPanel.add(promptField, c);
 		
-		promptField.setLocation(150, 70);
-		frame.add(promptField);
-
 		//correct field
 		l = new JLabel("Enter Correct Answer");
-		l.setLocation(10,100);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 3;
+		myPanel.add(l, c);
 			
 		correctField = new JTextField();
-		correctField.setColumns(15);
-		correctField.setSize(correctField.getPreferredSize());
-					
-		correctField.setLocation(150, 100);
-		frame.add(correctField);
+		c.gridx = 1;
+		myPanel.add(correctField, c);
 		
 		//option1 field
 		l = new JLabel("Enter Option 1");
-		l.setLocation(10,130);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 4;
+		myPanel.add(l, c);
 			
 		option1Field = new JTextField();
-		option1Field.setColumns(15);
-		option1Field.setSize(option1Field.getPreferredSize());
-					
-		option1Field.setLocation(150, 130);
-		frame.add(option1Field);
+		c.gridx = 1;
+		myPanel.add(option1Field, c);
 		
 		
 		//option2 field
 		l = new JLabel("Enter Option 2");
-		l.setLocation(10,160);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 5;
+		myPanel.add(l, c);
 			
 		option2Field = new JTextField();
-		option2Field.setColumns(15);
-		option2Field.setSize(option2Field.getPreferredSize());
-					
-		option2Field.setLocation(150, 160);
-		frame.add(option2Field);
+		c.gridx = 1;
+		myPanel.add(option2Field, c);
 		
 		//option3 field
 		l = new JLabel("Enter Option 3");
-		l.setLocation(10,190);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 6;
+		myPanel.add(l, c);
 			
 		option3Field = new JTextField();
-		option3Field.setColumns(15);
-		option3Field.setSize(option3Field.getPreferredSize());
-					
-		option3Field.setLocation(150, 190);
-		frame.add(option3Field);
+		c.gridx = 1;
+		myPanel.add(option3Field, c);
 		
 		
 		//option4 field
 		l = new JLabel("Enter Option 4");
-		l.setLocation(10,210);
-		l.setSize(l.getPreferredSize());
-		frame.add(l);
+		l.setHorizontalAlignment(JLabel.CENTER);
+		c.gridx = 0;
+		c.gridy = 7;
+		myPanel.add(l, c);
 			
 		option4Field = new JTextField();
-		option4Field.setColumns(15);
-		option4Field.setSize(option4Field.getPreferredSize());
-					
-		option4Field.setLocation(150, 210);
-		frame.add(option4Field);
-				
+		c.gridx = 1;
+		myPanel.add(option4Field, c);
+						
 		
 		//buttons
 		continueButton = new JButton("Continue Creating More Questions");
-		continueButton.setSize(continueButton.getPreferredSize());
-		continueButton.setLocation(150,240);
-		frame.add(continueButton);
+		c.gridx = 0;
+		c.gridy = 8;
+		myPanel.add(continueButton, c);
 		
 		completeButton = new JButton("Complete Assignment");
-		completeButton.setSize(completeButton.getPreferredSize());
-		completeButton.setLocation(150,270);
-		frame.add(completeButton);
+		c.gridx = 1;
+		myPanel.add(completeButton, c);
 		
-		
+		myPanel.setOpaque(false);
+		frame.add(myPanel);		
 		frame.setVisible(true);
+		frame.repaint();
 	}
 
 	

@@ -31,7 +31,7 @@ public class Gui {
 		
 		frame = new JFrame("GradeBook Assistant Login");
 		frame.setSize(500, 200);
-		frame.getContentPane().setBackground(Color.orange);
+		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
