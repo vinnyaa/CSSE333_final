@@ -22,7 +22,6 @@ public class CompleteAssignmentGui {
 	JFrame frame; //frame
 	JButton submitAnswerButton;
 	JLabel promptLabel; //used for printing on frame
-//	JTextField answerField;
 	JTextField courseIdField;
 	JPanel myPanel;
 	JComboBox<Integer> assignmentIdBox;
@@ -75,8 +74,7 @@ public class CompleteAssignmentGui {
 		c.gridx = 2;
 		myPanel.add(promptLabel,c);
 		
-		// jcombobox for assignment id
-		// TODO: query should happen here to get assignment id's
+
 		
 		assignmentIdBox = new JComboBox<Integer>();
 		assignmentIdBox.addActionListener(new ActionListener() {
@@ -92,9 +90,7 @@ public class CompleteAssignmentGui {
 		c.gridx = 0;
 		c.gridy = 1;
 		myPanel.add(assignmentIdBox,c);
-		
-		// jcombobox for question id
-//		String[] expampleQuestionIDs = {"question", "id", "strings", "go", "here"};
+
 		
 		questionIdBox = new JComboBox<Integer>();
 		questionIdBox.addActionListener(new ActionListener() {
@@ -114,7 +110,7 @@ public class CompleteAssignmentGui {
 		myPanel.add(questionIdBox,c);
 		
 		
-		// jtextfield or jcombobox for answer to the question????
+
 		answerBox = new JComboBox<Integer>();
 		answerBox.addActionListener(new ActionListener() {
 			
@@ -190,14 +186,11 @@ public class CompleteAssignmentGui {
 		         }  
 	       }
 			
-//			System.out.println("OUTPUT ARRAY of assignments: " + assignID.toString());
-
 	       
 		} catch (Exception e) {
 		   e.printStackTrace();
 	   	} finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   	}  
 		for(int i = 0; i < assignID.size(); i++) {
 			assignmentIdBox.addItem(assignID.get(i));
@@ -218,20 +211,17 @@ public class CompleteAssignmentGui {
 			ResultSet rs = stmt.executeQuery();			
 			
 			if(!(rs == null)) {
-//				int col_label_count = rs.getMetaData().getColumnCount();
 		         while (rs.next()) {  
 	 		        questID.add(rs.getInt(1));
 		         }  
 	       }
-			
-//			System.out.println("OUTPUT ARRAY of questions: " + questID.toString());
+
 
 	       
 	   } catch (Exception e) {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }
 		for(int i = 0; i < questID.size(); i++) {
 			questionIdBox.addItem(questID.get(i));
@@ -251,26 +241,20 @@ public class CompleteAssignmentGui {
 			stmt.setInt(1, assignID.get(assignmentIdBox.getSelectedIndex()));
 			stmt.setInt(2, questID.get(questionIdBox.getSelectedIndex()));
 			ResultSet rs = stmt.executeQuery();			
-//			System.out.println(rs.getMetaData().getColumnName(1));
-//			System.out.println(rs.getMetaData().getColumnName(2));
 			if(!(rs == null)) {
-//				int col_label_count = rs.getMetaData().getColumnCount();
-				
-//				System.out.println(rs.getMetaData().getColumnCount());
 		         while (rs.next()) {  
 		        	 answerText.add(rs.getString(2));
 		        	 answerNumber.add(rs.getInt(1));
 		         }
 	       }
 			
-//			System.out.println("OUTPUT ARRAY of answers:numbers " + answerText.toString() + ":" + answerNumber.toString());
+
 
 	       
 	   } catch (Exception e) {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }
 		for(int i = 0; i < answerNumber.size(); i++) {
 			answerBox.addItem(answerNumber.get(i));
@@ -287,7 +271,6 @@ public class CompleteAssignmentGui {
 			stmt.setInt(2, questID.get(questionIdBox.getSelectedIndex()));
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
-//			System.out.println("Prompt: " + rs.getString(1));
 			promptLabel.setText(rs.getString(1));
 
 	       
@@ -295,7 +278,6 @@ public class CompleteAssignmentGui {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }
 	}
 	
@@ -314,7 +296,6 @@ public class CompleteAssignmentGui {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	}
 	

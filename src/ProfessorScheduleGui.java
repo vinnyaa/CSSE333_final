@@ -19,11 +19,6 @@ import javax.swing.JTextField;
 public class ProfessorScheduleGui {
 	
 	JFrame frame; //frame
-//	JButton studSchedButton;
-//	JButton profSchedButton;
-//	JButton gradeReportButton;
-//	JButton completeAssignButton;
-//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField professorIdField;
 	JTextField courseIdField;
@@ -31,7 +26,6 @@ public class ProfessorScheduleGui {
 	JButton myButton;
 	String username;
 	String password;
-//	Boolean pressed = true;
 	
 	
 	ProfessorScheduleGui() {
@@ -40,7 +34,6 @@ public class ProfessorScheduleGui {
 		frame.setSize(500, 200);
 		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
-//		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		GridBagLayout layout = new GridBagLayout();
@@ -58,20 +51,11 @@ public class ProfessorScheduleGui {
 		//course ID field
 		l = new JLabel("Professor ID");
 		l.setHorizontalAlignment(JLabel.CENTER);
-//		l.setLocation(10,10);
-//		l.setSize(l.getPreferredSize());
-//		frame.add(l);
 		c.gridx = 0;
 		c.gridy = 0;
 		myPanel.add(l,c);
 				
 		professorIdField = new JTextField();
-//		professorIdField.setColumns(15);
-//		professorIdField.setSize(professorIdField.getPreferredSize());
-		
-//		professorIdField.setLocation(150, 10);
-		//field.setToolTipText("Enter User Name");
-//		frame.add(professorIdField);
 		c.gridx = 1;
 		c.gridy = 0;
 		myPanel.add(professorIdField,c);
@@ -79,28 +63,16 @@ public class ProfessorScheduleGui {
 		//section ID field
 		l = new JLabel("Course ID (Optional)");
 		l.setHorizontalAlignment(JLabel.CENTER);
-//		l.setLocation(10,40);
-//		l.setSize(l.getPreferredSize());
-//		frame.add(l);
 		c.gridx = 0;
 		c.gridy = 1;
 		myPanel.add(l,c);
 				
 		courseIdField = new JTextField();
-//		courseIdField.setColumns(15);
-//		courseIdField.setSize(courseIdField.getPreferredSize());
-		
-//		courseIdField.setLocation(150, 40);
-		//field.setToolTipText("Enter User Name");
-//		frame.add(courseIdField);
 		c.gridx = 1;
 		c.gridy = 1;
 		myPanel.add(courseIdField,c);
 		
 		myButton = new JButton("Continue");
-//		myButton.setSize(myButton.getPreferredSize());
-//		myButton.setLocation(150,80);
-//		frame.add(myButton);
 		c.gridx = 1;
 		c.gridy = 2;
 		myPanel.add(myButton,c);

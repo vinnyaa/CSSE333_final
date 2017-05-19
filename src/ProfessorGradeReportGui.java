@@ -17,11 +17,6 @@ import javax.swing.JTextField;
 public class ProfessorGradeReportGui {
 	
 	JFrame frame; //frame
-//	JButton studSchedButton;
-//	JButton profSchedButton;
-//	JButton gradeReportButton;
-//	JButton completeAssignButton;
-//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField courseIdField;
 	JTextField sectionIdField;
@@ -29,7 +24,6 @@ public class ProfessorGradeReportGui {
 	JButton myButton;
 	String username;
 	String password;
-//	Boolean pressed = true;
 	
 	
 	ProfessorGradeReportGui() {
@@ -52,7 +46,6 @@ public class ProfessorGradeReportGui {
 		courseIdField.setSize(courseIdField.getPreferredSize());
 		
 		courseIdField.setLocation(150, 10);
-		//field.setToolTipText("Enter User Name");
 		frame.add(courseIdField);
 		
 		//section ID field
@@ -66,7 +59,6 @@ public class ProfessorGradeReportGui {
 		sectionIdField.setSize(sectionIdField.getPreferredSize());
 		
 		sectionIdField.setLocation(150, 40);
-		//field.setToolTipText("Enter User Name");
 		frame.add(sectionIdField);
 		
 		myButton = new JButton("Continue");

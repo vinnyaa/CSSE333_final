@@ -19,11 +19,6 @@ import javax.swing.JTextField;
 public class CreateNewQuestionGui {
 	
 	JFrame frame; //frame
-//	JButton studSchedButton;
-//	JButton profSchedButton;
-//	JButton gradeReportButton;
-//	JButton completeAssignButton;
-//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField idField;
 	JTextField pointsField;
@@ -38,8 +33,7 @@ public class CreateNewQuestionGui {
 	JButton continueButton;
 	String username;
 	String password;
-//	Boolean pressed = true;
-	
+
 	
 	CreateNewQuestionGui() {
 		
@@ -47,7 +41,6 @@ public class CreateNewQuestionGui {
 		frame.setSize(500, 400);
 		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
-//		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		GridBagLayout layout = new GridBagLayout();
@@ -204,9 +197,6 @@ public class CreateNewQuestionGui {
 	public String getOption4Field() {
 		return option4Field.getText();
 	}
-	
-	
-	
 	
 	public JButton getCompleteButton(){
 		return completeButton;

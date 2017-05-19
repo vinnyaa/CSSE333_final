@@ -23,23 +23,14 @@ public class ProfessorGui {
 	JButton profSchedButton;
 	JButton gradeReportButton;
 	JButton createAssignButton;
-//	JButton assignmentHistoryButton;
 	JButton viewAssignResultsButton;
 	JPanel myPanel;
 	String username;
 	String password;
-//	Boolean pressed = true;
 	
 	
 	ProfessorGui() {
-//		
-//		frame = new JFrame("GradeBook Assistant - Professor");
-//		frame.setSize(500, 370);
-//		frame.getContentPane().setBackground(Color.orange);
-//		frame.setLocation(300, 500);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
-		
+
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -60,91 +51,32 @@ public class ProfessorGui {
 		studSchedButton = new JButton("Student Schedule Lookup");
 		c.gridx = 1;
 		myPanel.add(studSchedButton, c);
-		
-//		studSchedButton.addActionListener(new ActionListener() {
-//          @Override
-//          public void actionPerformed(ActionEvent event)
-//          {
-//             System.out.println("Stu Schedule has been pressed");
-//          }
-//		
-//		});
+	
 		
 		profSchedButton = new JButton("Professor Schedule Lookup");
 		c.gridy = 1;
 		myPanel.add(profSchedButton, c);
 		
-//		profSchedButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Prof Schedule has been pressed");
-//	          }
-//			
-//			});
-//		
+
 		
 		
 		gradeReportButton = new JButton("Grade Report");
 		c.gridy = 2;
 		myPanel.add(gradeReportButton, c);
 		
-//		gradeReportButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Grade report has been pressed");
-//	          }
-//			
-//			});
 		
 		createAssignButton = new JButton("Create Assignment");
 		c.gridy = 3;
 		myPanel.add(createAssignButton, c);
-//		
-//		createAssignButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             CreateAssignmentGui createGui = new CreateAssignmentGui();
-//	        	 //System.out.println("create assign has been pressed");
-//	          }
-//			
-//			});
-//		
+
+		
 		viewAssignResultsButton = new JButton("Assignment Results");
 		c.gridy = 4;
 		myPanel.add(viewAssignResultsButton, c);
-		
-//		viewAssignResultsButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Complete assign has been pressed");
-//	          }
-//			
-//			});
-		
-		
-		
-//		assignmentHistoryButton = new JButton("Assignment History");
-//		c.gridy = 5;
-//		myPanel.add(assignmentHistoryButton, c);
-//		
-//		assignmentHistoryButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Assignment history has been pressed");
-//	          }
-//			
-//			});
+	
 		
 		myPanel.setOpaque(false);
-//		frame.add(myPanel);
-//		frame.repaint();
-			
-		
+	
 		
 		
 	}

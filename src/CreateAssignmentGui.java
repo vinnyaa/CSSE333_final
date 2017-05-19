@@ -19,18 +19,12 @@ import javax.swing.JTextField;
 public class CreateAssignmentGui {
 	
 	JFrame frame; //frame
-//	JButton studSchedButton;
-//	JButton profSchedButton;
-//	JButton gradeReportButton;
-//	JButton completeAssignButton;
-//	JButton assignmentHistoryButton;
 	JLabel l; //used for printing on frame
 	JTextField idField;
 	JPanel myPanel;
 	JButton myButton;
 	String username;
 	String password;
-//	Boolean pressed = true;
 	
 	
 	CreateAssignmentGui() {
@@ -39,7 +33,6 @@ public class CreateAssignmentGui {
 		frame.setSize(500, 150);
 		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
-//		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		GridBagLayout layout = new GridBagLayout();

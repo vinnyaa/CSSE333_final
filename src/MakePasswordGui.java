@@ -38,21 +38,17 @@ public class MakePasswordGui {
 	JLabel jlal;
 	JFrame frame;
 	JButton myButton;
-    static // The salt (probably) can be stored along with the encrypted data
-   byte[] salt = new String("12345678").getBytes();
+     // The salt (probably) can be stored along with the encrypted data
+	static byte[] salt = new String("12345678").getBytes();
 
    // Decreasing this speeds down startup time and can be useful during testing, but it also makes it easier for brute force attackers
    static int iterationCount = 40000;
    // Other values give me java.security.InvalidKeyException: Illegal key size or default parameters
-  static int keyLength = 128;
-  static String keyPassword;
-  static SecretKeySpec key;
+   static int keyLength = 128;
+   static String keyPassword;
+   static SecretKeySpec key;
 	
 	
-	
-    
-
-
 	MakePasswordGui() throws NoSuchAlgorithmException, InvalidKeySpecException {
 				
 		frame = new JFrame("Password Creation");
@@ -92,20 +88,7 @@ public class MakePasswordGui {
 		myPanel.add(passField2, c);
 		
 		myButton = new JButton("Submit");
-//		myButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             try {
-//					System.out.println(MakePasswordGui.getPassword());
-//				} catch (UnsupportedEncodingException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//	             // TODO: Actually do something when we verify the password
-//	          }
-//			
-//			});
+
 		c.gridy = 2;
 		myPanel.add(myButton, c);
 		
@@ -121,21 +104,7 @@ public class MakePasswordGui {
 	}
 	
 	public static String getPassword() throws GeneralSecurityException, IOException{
-		
-//		System.out.println(passField.hashCode());
-//		System.out.println(Arrays.toString(passField.getPassword()));
-//		if(Arrays.equals(passField.getPassword(), passField2.getPassword())) {
-//			return (Arrays.toString(passField.getPassword()));
-//
-//		}
-//		if(passField.getPassword().hashCode() == passField2.getPassword().hashCode()){
-//			System.out.println("the passwords are equal");
-//			return passField.getPassword().toString();
-//		}
-//		String pass1 = encrypt(passField.getText(), key);
-//		String pass2 = encrypt(passField2.getText(), key);
-//		System.out.println(pass1);
-//		System.out.println(pass2);
+
 		if ((passField.getText()).equals(passField2.getText())){
 			return encrypt(passField.getText(), key);
 		}

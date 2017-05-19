@@ -46,8 +46,7 @@ public class Gui {
   static int keyLength = 128;
   static String keyPassword;
   static SecretKeySpec key;
-//	Boolean pressed = true;
-	
+
 	
 	Gui() throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
@@ -122,9 +121,6 @@ public class Gui {
 			return encrypt(passwordField.getText(),key);
 	}
 	
-//	public boolean okNotPressed(){
-//		return pressed;
-//	}
 	
 	public JButton okButton(){
 		return myButton;

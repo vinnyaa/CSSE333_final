@@ -32,12 +32,6 @@ public class StudentGui {
 	
 	StudentGui() {
 		
-//		frame = new JFrame("GradeBook Assistant - Student");
-//		frame.setSize(500, 300);
-//		frame.getContentPane().setBackground(Color.orange);
-//		frame.setLocation(300, 200);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
 		
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
@@ -71,32 +65,11 @@ public class StudentGui {
 		c.gridy = 3;
 		myPanel.add(completeAssignButton, c);
 		
-//		completeAssignButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Complete assign has been pressed");
-//	             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
-//	          }
-//			
-//			});
+
+
 		
-//		assignmentHistoryButton = new JButton("Assignment History");
-//		c.gridy = 4;
-//		myPanel.add(assignmentHistoryButton, c);
-//		
-//		assignmentHistoryButton.addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	             System.out.println("Assignment history has been pressed");
-//	          }
-//			
-//			});
-//		
 		myPanel.setOpaque(false);
-//		frame.add(myPanel);
-//		frame.repaint();
+
 			
 		
 		

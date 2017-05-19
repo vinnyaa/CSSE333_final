@@ -45,8 +45,8 @@ public class Main {
 	private static ProfessorScheduleGui myProfessorSchedule;
 	private static MakePasswordGui myPassGui;
 	public static Color back_color = Color.orange;
-    static // The salt (probably) can be stored along with the encrypted data
-   byte[] salt = new String("12345678").getBytes();
+   // The salt (probably) can be stored along with the encrypted data
+   static byte[] salt = new String("12345678").getBytes();
 
    // Decreasing this speeds down startup time and can be useful during testing, but it also makes it easier for brute force attackers
    static int iterationCount = 40000;
@@ -67,37 +67,9 @@ public class Main {
 
 	       key = createSecretKey(keyPassword.toCharArray(),
 	               salt, iterationCount, keyLength);
-//	       
-//
-//	       String originalPassword = "secret";
-//	       System.out.println("Original password: " + originalPassword);
-//
-//	       String encryptedPassword = encrypt(originalPassword, key);
-//	       System.out.println("Encrypted password: " + encryptedPassword);
-//	       String decryptedPassword = decrypt(encryptedPassword, key);
-//	       System.out.println("Decrypted password: " + decryptedPassword);
-	       
-
-	       
-//	       System.out.println(key.toString());
-//	
-//        myStudentGui = new StudentGui();
-//    
-//        myStudentGui.studGradeReportButton().addActionListener(new ActionListener() {
-//	          @Override
-//	          public void actionPerformed(ActionEvent event)
-//	          {
-//	        	  myStuGradeReport = new StudentGradeReportGui();
-//	        	  studentGradeReport(myStuGradeReport.continueButton(), myStuGradeReport);
-//	          }
-//		});
-		
-
-        
+       
 		myGui = new Gui();
-//        new MakePasswordGui();
-
-		
+	
 		myGui.okButton().addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent event)
@@ -109,15 +81,18 @@ public class Main {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-//             System.out.println(hashedUserPass);
+
              
              
             Connection myConnection = makeConnection();
 			String userType = runUserLoginStatement(myConnection);
-            //runUserLoginStatement(myConnection);
 			
-			if (userType.equals("invalid")){
-				ErrorGui myErrorGui = new ErrorGui();
+			if (userType.equals("invalid password")){
+				ErrorGui myErrorGui = new ErrorGui("Incorrect Password");
+				return;
+			}
+			if (userType.equals("invalid username")){
+				ErrorGui myErrorGui = new ErrorGui("Incorrect Username");
 				return;
 			}
 			
@@ -200,25 +175,14 @@ public class Main {
 			          @Override
 			          public void actionPerformed(ActionEvent event)
 			          {
-//			             System.out.println("Complete assign has been pressed");
 			             CompleteAssignmentGui assignGui = new CompleteAssignmentGui();
 			          }
 					
 					});
 			}
 			
-			
-			// TODO: make a conditional statement here and then run one of two fuctions
-			// one would replace the myGui.frame panel with a 
-//	        myProfessorGui = new ProfessorGui();
-//			Main.switchToStudentGui();
 
-
-	        
-	        
-	        
 			if (myConnection != null) try { myConnection.close(); } catch(Exception e) {}
-//			System.out.println("Connection Terminated");
 
           }
 		});
@@ -269,11 +233,9 @@ public class Main {
 	   
 	   try {
 
-		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?,?)}");
+		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?,?,?)}");
 			stmt.setInt(1, userID);		
 			
-//			System.out.println(hashedUserPass);
-
 			
 			if (!(userPassword.equals("null pass")))
 				stmt.setString(2, userPassword);
@@ -283,44 +245,37 @@ public class Main {
 			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
 			stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
 			stmt.registerOutParameter(5, java.sql.Types.VARCHAR);
+			stmt.registerOutParameter(6, java.sql.Types.VARCHAR);
 
 			stmt.execute();
-//			System.out.println(stmt.getString(4));
+			System.out.println(stmt.getString(3));
+			System.out.println(stmt.getString(4));
+			System.out.println(stmt.getString(5));
+			System.out.println(stmt.getString(6));
+			
+			if (stmt.getString(6).equals("User Not Found")){
+				return "invalid username";
+			}
 			if (stmt.getString(4).equals("t")){
 				myPassGui = new MakePasswordGui();
 				makePassword(myPassGui);
-
 			}
 			else{
 				if (!(decrypt((stmt.getString(5)), key).equals(decrypt(userPassword, key)))){
-					System.out.println("User names do NOT match");
-					return "invalid";
+					return "invalid password";
 				}
 			}
 			
-//			System.out.println(stmt.getString(3));
+
 			return stmt.getString(3);
 
-//	       if(!(rs == null)) {
-//		       int col_label_count = rs.getMetaData().getColumnCount();
-//		       System.out.println(col_label_count);
-//			   for (int i = 1; i <= col_label_count; i++){
-//			        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");().getColumnLabel(i) + "\t");
-//		        }
-//		        resultString = resultString + "\n";;
-//		         while (rs.next()) {  
-//		        	 for (int i = 1; i <= col_label_count; i++){
-//		 		        resultString = resultString + (rs.getString(i) + "\t");
-//		 	        }
-//		 	        resultString = resultString + "\n";;
-//		         }  
-//	       }
+
 	   } catch (Exception e) {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}  
 	      if (rs != null) try { con.close(); } catch(Exception e) {}  
-//	      System.out.println("Statement Completed: ");
+
 	   }
 	   return null;
  
@@ -347,7 +302,6 @@ public class Main {
 			// Establish the connection.  
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
 			con = DriverManager.getConnection(connectionUrl);  
-//			System.out.println("connection established");
 			return con;
 		} 	 
 
@@ -390,7 +344,6 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -399,7 +352,6 @@ public class Main {
 	          @Override
 	          public void actionPerformed(ActionEvent event)
 	          {
-//	        	  System.out.println("Complete button pressed");
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
@@ -413,7 +365,6 @@ public class Main {
 	          @Override
 	          public void actionPerformed(ActionEvent event)
 	          {
-//	        	  System.out.println("Continue button pressed");
 	        	  Connection myConnection = makeConnection();
 	        	  runCreateQuestionStatement(myConnection, newQuestionGui.getIdField(), newQuestionGui.getPointsField(),
 	        			  					newQuestionGui.getPromptField(), newQuestionGui.getCorrectField(), 
@@ -451,7 +402,6 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -494,7 +444,6 @@ public class Main {
 			
 			if(!(rs == null)) {
 			       int col_label_count = rs.getMetaData().getColumnCount();
-//			       System.out.println(col_label_count);
 				   for (int i = 1; i <= col_label_count; i++){
 				        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 			        }
@@ -514,7 +463,6 @@ public class Main {
 		   e.printStackTrace();
 	   } finally {
 	      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//	      System.out.println("Statement Completed: ");
 	   }  
    }
    
@@ -556,23 +504,6 @@ public class Main {
 	
 				stmt.execute();
 				
-//				if(!(rs == null)) {
-//				       int col_label_count = rs.getMetaData().getColumnCount();
-////				       System.out.println(col_label_count);
-//					   for (int i = 1; i <= col_label_count; i++){
-//					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
-//				        }
-//				        resultString = resultString + "\n";;
-//				         while (rs.next()) {  
-//				        	 for (int i = 1; i <= col_label_count; i++){
-//				 		        resultString = resultString + (rs.getString(i) + "\t");
-//				 	        }
-//				 	        resultString = resultString + "\n";;
-//				         }  
-//				         OutputScreenGui myOutput = new OutputScreenGui();
-//				         myOutput.addToFrame(resultString);
-//			       }
-//	
 		       
 		   } catch (Exception e) {
 			   e.printStackTrace();
@@ -631,7 +562,6 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	
@@ -657,9 +587,7 @@ public class Main {
 
 			   	stmt = con.prepareCall("{call StudentGradeReport(?,?)}");
 				stmt.setInt(1, userID);
-				
-//				System.out.println(course);
-				
+
 				if (-1 != course)
 					stmt.setInt(2, course);
 				else
@@ -671,7 +599,6 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
@@ -691,7 +618,6 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -717,7 +643,6 @@ public class Main {
 
 			   	stmt = con.prepareCall("{call StudentSchedule(?,?)}");
 				stmt.setInt(1, studentID);
-//				System.out.println(courseID);
 				if (-1 != courseID)
 					stmt.setInt(2, courseID);
 				else
@@ -727,7 +652,6 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
@@ -747,7 +671,6 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -783,7 +706,6 @@ public class Main {
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-//				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
@@ -803,7 +725,6 @@ public class Main {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   
@@ -816,7 +737,7 @@ public class Main {
 		        	  Connection myConnection = makeConnection();
 		        	  try {
 		        		if (myGui.getPassword().equals("invalid")){
-		        			System.out.println("Passwords do not match");
+		        			ErrorGui myErrorGui = new ErrorGui("Passwords do not match");
 		        		}
 		        		else{
 						runMakePassword(myConnection, myGui.getPassword());
@@ -849,30 +770,12 @@ public class Main {
 				stmt.setString(2, newPassword);
 
 				stmt.execute();
-				
-//				if(!(rs == null)) {
-//				       int col_label_count = rs.getMetaData().getColumnCount();
-////				       System.out.println(col_label_count);
-//					   for (int i = 1; i <= col_label_count; i++){
-//					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
-//				        }
-//				        resultString = resultString + "\n";;
-//				         while (rs.next()) {  
-//				        	 for (int i = 1; i <= col_label_count; i++){
-//				 		        resultString = resultString + (rs.getString(i) + "\t");
-//				 	        }
-//				 	        resultString = resultString + "\n";;
-//				         }  
-//				         OutputScreenGui myOutput = new OutputScreenGui();
-//				         myOutput.addToFrame(resultString);
-//			       }
 
 		       
 		   } catch (Exception e) {
 			   e.printStackTrace();
 		   } finally {
 		      if (stmt != null) try { con.close(); } catch(Exception e) {}   
-//		      System.out.println("Statement Completed: ");
 		   }  
 	   }
 	   

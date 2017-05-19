@@ -20,9 +20,9 @@ public class ErrorGui {
 	
 
 
-	ErrorGui() {
+	ErrorGui(String errorMessage) {
 				
-		frame = new JFrame("Login Error");
+		frame = new JFrame("Error");
 		frame.setSize(400, 200);
 		frame.getContentPane().setBackground(Color.white);
 		frame.setLocation(300, 200);
@@ -40,7 +40,7 @@ public class ErrorGui {
 		
 		c.gridx = 0;
 		c.gridy = 0;
-		jlal = new JLabel ("Incorrect User Login");
+		jlal = new JLabel (errorMessage);
 		Font ft = jlal.getFont();
 		Font newfont = new Font(ft.getFontName(), ft.getStyle(), 30);
 		jlal.setFont(newfont);

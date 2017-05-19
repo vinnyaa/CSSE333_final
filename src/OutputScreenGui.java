@@ -25,7 +25,7 @@ public class OutputScreenGui {
 	String username;
 	String password;
 	public static GridBagConstraints c;
-//	Boolean pressed = true;
+
 	
 	
 	OutputScreenGui() {
@@ -65,7 +65,6 @@ public class OutputScreenGui {
 		c.gridy = 0;
 		l = new JTextArea(s);
 		l.setBackground(Main.back_color);
-//		l.setHorizontalAlignment(JTextArea.CENTER_ALIGNMENT);
 		myPanel.add(l,c);
 		
 		
