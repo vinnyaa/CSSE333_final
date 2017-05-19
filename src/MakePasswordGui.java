@@ -2,21 +2,28 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import java.security.AlgorithmParameters;
+import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 
 
@@ -31,14 +38,22 @@ public class MakePasswordGui {
 	JLabel jlal;
 	JFrame frame;
 	JButton myButton;
-	
+    static // The salt (probably) can be stored along with the encrypted data
+   byte[] salt = new String("12345678").getBytes();
+
+   // Decreasing this speeds down startup time and can be useful during testing, but it also makes it easier for brute force attackers
+   static int iterationCount = 40000;
+   // Other values give me java.security.InvalidKeyException: Illegal key size or default parameters
+  static int keyLength = 128;
+  static String keyPassword;
+  static SecretKeySpec key;
 	
 	
 	
     
 
 
-	MakePasswordGui() {
+	MakePasswordGui() throws NoSuchAlgorithmException, InvalidKeySpecException {
 				
 		frame = new JFrame("Password Creation");
 		frame.setSize(500, 200);
@@ -77,20 +92,20 @@ public class MakePasswordGui {
 		myPanel.add(passField2, c);
 		
 		myButton = new JButton("Submit");
-		myButton.addActionListener(new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent event)
-	          {
-	             try {
-					System.out.println(MakePasswordGui.getPassword());
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	             // TODO: Actually do something when we verify the password
-	          }
-			
-			});
+//		myButton.addActionListener(new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent event)
+//	          {
+//	             try {
+//					System.out.println(MakePasswordGui.getPassword());
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//	             // TODO: Actually do something when we verify the password
+//	          }
+//			
+//			});
 		c.gridy = 2;
 		myPanel.add(myButton, c);
 		
@@ -98,50 +113,73 @@ public class MakePasswordGui {
 		frame.add(myPanel);
 		frame.setVisible(true);
 		frame.repaint();
+		
+		   keyPassword = "password";
+
+	       key = createSecretKey(keyPassword.toCharArray(),
+	               salt, iterationCount, keyLength);
 	}
 	
-	public static String getPassword() throws UnsupportedEncodingException{
+	public static String getPassword() throws GeneralSecurityException, IOException{
 		
 //		System.out.println(passField.hashCode());
 //		System.out.println(Arrays.toString(passField.getPassword()));
 //		if(Arrays.equals(passField.getPassword(), passField2.getPassword())) {
 //			return (Arrays.toString(passField.getPassword()));
-
+//
 //		}
 //		if(passField.getPassword().hashCode() == passField2.getPassword().hashCode()){
 //			System.out.println("the passwords are equal");
 //			return passField.getPassword().toString();
 //		}
+//		String pass1 = encrypt(passField.getText(), key);
+//		String pass2 = encrypt(passField2.getText(), key);
+//		System.out.println(pass1);
+//		System.out.println(pass2);
+		if ((passField.getText()).equals(passField2.getText())){
+			return encrypt(passField.getText(), key);
+		}
+		return "invalid";
 		
-		
-		String hashPass1 = get_SHA_512_SecurePassword(passField.getPassword().toString(), "test");
-		String hashPass2 = get_SHA_512_SecurePassword(passField2.getPassword().toString(), "test");
-		System.out.println(passField.getPassword());
-		System.out.println(hashPass1);
-		System.out.println(passField.getPassword());
-		System.out.println(hashPass2);
-		return null;
+
 	}
 	
 	public JButton getMyButton(){
 		return myButton;
 	}
 	
-	public static String get_SHA_512_SecurePassword(String passwordToHash, String   salt) throws UnsupportedEncodingException{
-		String generatedPassword = null;
-		    try {
-		         MessageDigest md = MessageDigest.getInstance("SHA-512");
-		         md.update(salt.getBytes("UTF-8"));
-		         byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-		         StringBuilder sb = new StringBuilder();
-		         for(int i=0; i< bytes.length ;i++){
-		            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-		         }
-		         generatedPassword = sb.toString();
-		        } 
-		       catch (NoSuchAlgorithmException e){
-		        e.printStackTrace();
-		       }
-		    return generatedPassword;
-	}
+	 private static SecretKeySpec createSecretKey(char[] password, byte[] salt, int iterationCount, int keyLength) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	       SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+	       PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
+	       SecretKey keyTmp = keyFactory.generateSecret(keySpec);
+	       return new SecretKeySpec(keyTmp.getEncoded(), "AES");
+	   }
+
+	   private static String encrypt(String property, SecretKeySpec key) throws GeneralSecurityException, UnsupportedEncodingException {
+	       Cipher pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	       pbeCipher.init(Cipher.ENCRYPT_MODE, key);
+	       AlgorithmParameters parameters = pbeCipher.getParameters();
+	       IvParameterSpec ivParameterSpec = parameters.getParameterSpec(IvParameterSpec.class);
+	       byte[] cryptoText = pbeCipher.doFinal(property.getBytes("UTF-8"));
+	       byte[] iv = ivParameterSpec.getIV();
+	       return base64Encode(iv) + ":" + base64Encode(cryptoText);
+	   }
+
+	   private static String base64Encode(byte[] bytes) {
+	       return Base64.getEncoder().encodeToString(bytes);
+	   }
+
+	   private static String decrypt(String string, SecretKeySpec key) throws GeneralSecurityException, IOException {
+	       String iv = string.split(":")[0];
+	       String property = string.split(":")[1];
+	       Cipher pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	       pbeCipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(base64Decode(iv)));
+	       return new String(pbeCipher.doFinal(base64Decode(property)), "UTF-8");
+	   }
+
+	   private static byte[] base64Decode(String property) throws IOException {
+	       return Base64.getDecoder().decode(property);
+	   }
+	
+
 }

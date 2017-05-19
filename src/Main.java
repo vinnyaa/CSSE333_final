@@ -2,10 +2,22 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.AlgorithmParameters;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.Base64;
 import java.util.Scanner;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JButton;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
@@ -18,7 +30,7 @@ public class Main {
 	public static String password = "password=Database37;";
 	public static String SQL = "exec testproc"; // TODO: Test sproc by putting string here
 	static int userID;
-	private static int hashedUserPass;
+	private static String userPassword;
 	private static int assignmentID;
 	private static Gui myGui;
 	private static StudentGui myStudentGui;
@@ -33,6 +45,16 @@ public class Main {
 	private static ProfessorScheduleGui myProfessorSchedule;
 	private static MakePasswordGui myPassGui;
 	public static Color back_color = Color.orange;
+    static // The salt (probably) can be stored along with the encrypted data
+   byte[] salt = new String("12345678").getBytes();
+
+   // Decreasing this speeds down startup time and can be useful during testing, but it also makes it easier for brute force attackers
+   static int iterationCount = 40000;
+   // Other values give me java.security.InvalidKeyException: Illegal key size or default parameters
+  static int keyLength = 128;
+  static String keyPassword;
+  static SecretKeySpec key;
+  
 	public enum Mode {
 	    LOGIN,
 	    STUDENT,
@@ -40,7 +62,24 @@ public class Main {
 	}
 	private static Mode mode = Mode.LOGIN;
 	
-	public static void main(String[] args) throws SQLException {  
+	public static void main(String[] args) throws SQLException, GeneralSecurityException, IOException {  
+		   keyPassword = "password";
+
+	       key = createSecretKey(keyPassword.toCharArray(),
+	               salt, iterationCount, keyLength);
+//	       
+//
+//	       String originalPassword = "secret";
+//	       System.out.println("Original password: " + originalPassword);
+//
+//	       String encryptedPassword = encrypt(originalPassword, key);
+//	       System.out.println("Encrypted password: " + encryptedPassword);
+//	       String decryptedPassword = decrypt(encryptedPassword, key);
+//	       System.out.println("Decrypted password: " + decryptedPassword);
+	       
+
+	       
+//	       System.out.println(key.toString());
 //	
 //        myStudentGui = new StudentGui();
 //    
@@ -56,7 +95,7 @@ public class Main {
 
         
 		myGui = new Gui();
-        new MakePasswordGui();
+//        new MakePasswordGui();
 
 		
 		myGui.okButton().addActionListener(new ActionListener() {
@@ -64,13 +103,23 @@ public class Main {
           public void actionPerformed(ActionEvent event)
           {
              userID = myGui.getUserID();
-             hashedUserPass = myGui.getPass();
+             try {
+				userPassword = myGui.getPass();
+			} catch (UnsupportedEncodingException | GeneralSecurityException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 //             System.out.println(hashedUserPass);
              
              
             Connection myConnection = makeConnection();
 			String userType = runUserLoginStatement(myConnection);
             //runUserLoginStatement(myConnection);
+			
+			if (userType.equals("invalid")){
+				ErrorGui myErrorGui = new ErrorGui();
+				return;
+			}
 			
 			if (userType.equals("professor")){
 				myProfessorGui = new ProfessorGui();
@@ -220,18 +269,20 @@ public class Main {
 	   
 	   try {
 
-		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?)}");
+		   	stmt = con.prepareCall("{call UserLogin(?,?,?,?,?)}");
 			stmt.setInt(1, userID);		
 			
 //			System.out.println(hashedUserPass);
+
 			
-			if (-1 != hashedUserPass)
-				stmt.setInt(2, hashedUserPass);
+			if (!(userPassword.equals("null pass")))
+				stmt.setString(2, userPassword);
 			else
-				stmt.setInt(2, -1);
+				stmt.setString(2, "null");
 			
 			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
 			stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
+			stmt.registerOutParameter(5, java.sql.Types.VARCHAR);
 
 			stmt.execute();
 //			System.out.println(stmt.getString(4));
@@ -240,6 +291,13 @@ public class Main {
 				makePassword(myPassGui);
 
 			}
+			else{
+				if (!(decrypt((stmt.getString(5)), key).equals(decrypt(userPassword, key)))){
+					System.out.println("User names do NOT match");
+					return "invalid";
+				}
+			}
+			
 //			System.out.println(stmt.getString(3));
 			return stmt.getString(3);
 
@@ -750,23 +808,35 @@ public class Main {
 	   }
 	   
 	   public static void makePassword(MakePasswordGui myGui){
-//			myGui.getMyButton().addActionListener(new ActionListener() {
-//		          @Override
-//		          public void actionPerformed(ActionEvent event)
-//		          {
-//		        	  Connection myConnection = makeConnection();
-//		        	  try {
-//						runMakePassword(myConnection, Integer.parseInt(MakePasswordGui.getPassword()));
-//					} catch (NumberFormatException | UnsupportedEncodingException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//		        	  
-//		          }
-//			});
+		   
+			myGui.getMyButton().addActionListener(new ActionListener() {
+		          @Override
+		          public void actionPerformed(ActionEvent event)
+		          {
+		        	  Connection myConnection = makeConnection();
+		        	  try {
+		        		if (myGui.getPassword().equals("invalid")){
+		        			System.out.println("Passwords do not match");
+		        		}
+		        		else{
+						runMakePassword(myConnection, myGui.getPassword());
+		        		}
+					} catch (NumberFormatException | UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (GeneralSecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        	  
+		          }
+			});
 		}
 	   
-	   static void runMakePassword(Connection con, int newPassword) {
+	   static void runMakePassword(Connection con, String newPassword) {
 		   
 		   CallableStatement stmt = null; 
 		   ResultSet rs = null;
@@ -776,26 +846,26 @@ public class Main {
 
 			   	stmt = con.prepareCall("{call CreatePassword(?,?)}");
 				stmt.setInt(1, userID);
-				stmt.setInt(2, newPassword);
+				stmt.setString(2, newPassword);
 
-				rs = stmt.executeQuery();
+				stmt.execute();
 				
-				if(!(rs == null)) {
-				       int col_label_count = rs.getMetaData().getColumnCount();
-//				       System.out.println(col_label_count);
-					   for (int i = 1; i <= col_label_count; i++){
-					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
-				        }
-				        resultString = resultString + "\n";;
-				         while (rs.next()) {  
-				        	 for (int i = 1; i <= col_label_count; i++){
-				 		        resultString = resultString + (rs.getString(i) + "\t");
-				 	        }
-				 	        resultString = resultString + "\n";;
-				         }  
-				         OutputScreenGui myOutput = new OutputScreenGui();
-				         myOutput.addToFrame(resultString);
-			       }
+//				if(!(rs == null)) {
+//				       int col_label_count = rs.getMetaData().getColumnCount();
+////				       System.out.println(col_label_count);
+//					   for (int i = 1; i <= col_label_count; i++){
+//					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
+//				        }
+//				        resultString = resultString + "\n";;
+//				         while (rs.next()) {  
+//				        	 for (int i = 1; i <= col_label_count; i++){
+//				 		        resultString = resultString + (rs.getString(i) + "\t");
+//				 	        }
+//				 	        resultString = resultString + "\n";;
+//				         }  
+//				         OutputScreenGui myOutput = new OutputScreenGui();
+//				         myOutput.addToFrame(resultString);
+//			       }
 
 		       
 		   } catch (Exception e) {
@@ -805,6 +875,41 @@ public class Main {
 //		      System.out.println("Statement Completed: ");
 		   }  
 	   }
+	   
+
+
+   private static SecretKeySpec createSecretKey(char[] password, byte[] salt, int iterationCount, int keyLength) throws NoSuchAlgorithmException, InvalidKeySpecException {
+       SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+       PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
+       SecretKey keyTmp = keyFactory.generateSecret(keySpec);
+       return new SecretKeySpec(keyTmp.getEncoded(), "AES");
+   }
+
+   private static String encrypt(String property, SecretKeySpec key) throws GeneralSecurityException, UnsupportedEncodingException {
+       Cipher pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+       pbeCipher.init(Cipher.ENCRYPT_MODE, key);
+       AlgorithmParameters parameters = pbeCipher.getParameters();
+       IvParameterSpec ivParameterSpec = parameters.getParameterSpec(IvParameterSpec.class);
+       byte[] cryptoText = pbeCipher.doFinal(property.getBytes("UTF-8"));
+       byte[] iv = ivParameterSpec.getIV();
+       return base64Encode(iv) + ":" + base64Encode(cryptoText);
+   }
+
+   private static String base64Encode(byte[] bytes) {
+       return Base64.getEncoder().encodeToString(bytes);
+   }
+
+   private static String decrypt(String string, SecretKeySpec key) throws GeneralSecurityException, IOException {
+       String iv = string.split(":")[0];
+       String property = string.split(":")[1];
+       Cipher pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+       pbeCipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(base64Decode(iv)));
+       return new String(pbeCipher.doFinal(base64Decode(property)), "UTF-8");
+   }
+
+   private static byte[] base64Decode(String property) throws IOException {
+       return Base64.getDecoder().decode(property);
+   }
 	   
 
    
