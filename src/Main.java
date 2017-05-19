@@ -9,6 +9,7 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Scanner;
 
@@ -19,6 +20,9 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
@@ -541,8 +545,11 @@ public class Main {
 				rs = stmt.executeQuery();
 				
 				if(!(rs == null)) {
+					
+				}
+				
+				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
-				       System.out.println(col_label_count);
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
 				        }
@@ -585,32 +592,58 @@ public class Main {
 
 		   try {
 
-			   	stmt = con.prepareCall("{call StudentGradeReport(?,?)}");
+			   	stmt = con.prepareCall("{call StudentGradeReport(?,?,?)}");
 				stmt.setInt(1, userID);
 
 				if (-1 != course)
 					stmt.setInt(2, course);
 				else
 					stmt.setInt(2, -1);
-
+				stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
 				
 
 				rs = stmt.executeQuery();
 				
 				if(!(rs == null)) {
 				       int col_label_count = rs.getMetaData().getColumnCount();
+				       // start try
+				       ArrayList<Object> results = new ArrayList<Object>();
+				       ArrayList<Object> meta_results = new ArrayList<Object>();
+				       
+				       System.out.println(col_label_count);
+				       ArrayList<String> headers = new ArrayList<String>();
+				       // end try
 					   for (int i = 1; i <= col_label_count; i++){
 					        resultString = resultString + (rs.getMetaData().getColumnLabel(i) + "\t");
+					        headers.add(rs.getMetaData().getColumnLabel(i));
 				        }
 				        resultString = resultString + "\n";;
-				         while (rs.next()) {  
+				         while (rs.next()) { 
+				        	results = new ArrayList<Object>();
+
 				        	 for (int i = 1; i <= col_label_count; i++){
 				 		        resultString = resultString + (rs.getString(i) + "\t");
+				 		        results.add(rs.getString(i));
 				 	        }
+				        	meta_results.add(results);
 				 	        resultString = resultString + "\n";;
-				         }  
+				         }
+				         System.out.println(headers.toString());
+				         System.out.println(meta_results.toString());
+				         Object[] header_array = new Object[headers.size()];
+				         header_array = headers.toArray(header_array);
+				         Object[][] results_array = new Object[meta_results.size() + 1][results.size()];
+				         results_array[0] = header_array;
+				         for (int i = 0; i < meta_results.size(); i++) {
+				        	 String[] thing = new String[((ArrayList<String>) meta_results.get(i)).size()];
+				        	 thing = ((ArrayList<String>) meta_results.get(i)).toArray(thing);
+				        	 results_array[i + 1] = thing;
+				         }
+				         JTable la_table = new JTable(results_array, header_array);
+				         la_table.setGridColor(back_color);
 				         OutputScreenGui myOutput = new OutputScreenGui();
-				         myOutput.addToFrame(resultString);
+//				         myOutput.addToFrame(resultString);
+				         myOutput.addTableToFrame(la_table);
 			       }
 
 		       

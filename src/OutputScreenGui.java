@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -67,6 +68,15 @@ public class OutputScreenGui {
 		l.setBackground(Main.back_color);
 		myPanel.add(l,c);
 		
+		
+	}
+	
+	public static void addTableToFrame(JTable jt) {
+		c.weightx = 1;
+		c.weighty = 1;
+		c.gridx = 0;
+		c.gridy = 1;
+		myPanel.add(jt,c);
 		
 	}
 	
