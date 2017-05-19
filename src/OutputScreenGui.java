@@ -32,7 +32,7 @@ public class OutputScreenGui {
 	OutputScreenGui() {
 		
 		frame = new JFrame("Gradebook Assistant");
-		frame.setSize(500, 200);
+		frame.setSize(600, 400);
 		frame.getContentPane().setBackground(Main.back_color);
 		frame.setLocation(300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
@@ -75,7 +75,7 @@ public class OutputScreenGui {
 		c.weightx = 1;
 		c.weighty = 1;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		myPanel.add(jt,c);
 		
 	}
